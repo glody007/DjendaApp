@@ -1,11 +1,4 @@
-package com.example.myapplication.reseau;
-
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+package com.example.djenda.reseau;
 
 import java.util.List;
 
@@ -14,7 +7,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

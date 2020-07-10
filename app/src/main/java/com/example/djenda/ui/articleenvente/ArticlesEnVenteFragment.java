@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.articleenvente;
+package com.example.djenda.ui.articleenvente;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.ArticlesEnVenteAdapter;
-import com.example.myapplication.reseau.Article;
-import com.example.myapplication.reseau.NetworkUtils;
+import com.example.djenda.ArticlesEnVenteAdapter;
+import com.example.djenda.reseau.Article;
+import com.example.djenda.reseau.NetworkUtils;
 
-import com.example.myapplication.R;
+import com.example.djenda.R;
 
 import java.util.List;
 

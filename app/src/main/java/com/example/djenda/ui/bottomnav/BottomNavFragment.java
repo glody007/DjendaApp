@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.bottomnav;
+package com.example.djenda.ui.bottomnav;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.R;
+import com.example.djenda.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.djenda;
 
 import org.junit.Test;
 

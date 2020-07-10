@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/bottom_navigation_frag"
-        android:name="com.example.myapplication.ui.bottomnav.BottomNavFragment"
+        android:name="com.example.djenda.ui.bottomnav.BottomNavFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"

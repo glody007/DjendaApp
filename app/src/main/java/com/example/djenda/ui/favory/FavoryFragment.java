@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.favory;
+package com.example.djenda.ui.favory;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.R;
+import com.example.djenda.R;
 
 public class FavoryFragment extends Fragment {
 

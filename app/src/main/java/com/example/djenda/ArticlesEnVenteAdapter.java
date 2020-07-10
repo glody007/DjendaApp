@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.djenda;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.reseau.Article;
+import com.example.djenda.reseau.Article;
 
 import java.util.List;
 
