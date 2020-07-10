@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Tech-Alchimiste</string>
+    <string name="nav_header_subtitle">techalchimiste@google.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="titre_nagation_item_vendre">Vendre</string>
+    <string name="menu_articles">Articles</string>
+    <string name="capture">capture</string>
+
+    <string name="photos_details_article">photos de l\'article</string>
+    <string name="nom_details_article">Nom</string>
+    <string name="ti_nom_details_article">nom</string>
+    <string name="ti_description_details_article">Description</string>
+    <string name="ti_categorie_details_article">Categorie</string>
+    <string name="ti_prix_details_article">Prix</string>
+    <string name="btn_poster_details_article">Poster</string>
+    <string name="menu_mes_articles">Mes articles</string>
+</resources>
