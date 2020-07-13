@@ -5,21 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.djenda.ArticlesEnVenteAdapter;
 import com.example.djenda.reseau.Article;
-import com.example.djenda.reseau.NetworkUtils;
 
 import com.example.djenda.R;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ArticlesEnVenteFragment extends Fragment implements
@@ -28,7 +26,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
     private RecyclerView reclyclerView;
     private ArticlesEnVenteAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private NetworkUtils api;
+    private ArticlesEnVenteViewModel model;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,27 +42,18 @@ public class ArticlesEnVenteFragment extends Fragment implements
 
         mAdapter = new ArticlesEnVenteAdapter(getActivity(), this);
         reclyclerView.setAdapter(mAdapter);
-        api = new NetworkUtils();
-        setArticles();
 
+        model = new ViewModelProvider(this).get(ArticlesEnVenteViewModel.class);
+
+        model.getArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
+            @Override
+            public void onChanged(@Nullable final List<Article> newArticles) {
+                mAdapter.setArticles(newArticles);
+            }
+        });
         return root;
     }
 
-    public void setArticles() {
-        api.getArticles(new Callback<List<Article>>() {
-            @Override
-            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
-                int statusCode = response.code();
-                List<Article> articles = response.body();
-                mAdapter.setArticles(articles);
-            }
-
-            @Override
-            public void onFailure(Call<List<Article>>call, Throwable t) {
-                // Log error here since request failed
-            }
-        });
-    }
 
     @Override
     public void onClick() {

@@ -16,6 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemIconTint="@drawable/item_navigation_couleur"
         app:itemTextColor="@drawable/item_navigation_couleur"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/activity_main_drawer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

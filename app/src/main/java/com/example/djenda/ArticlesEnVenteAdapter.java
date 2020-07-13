@@ -49,6 +49,8 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
     @Override
     public void onBindViewHolder(@NonNull ArticlesEnVenteViewHolder articlesEnVenteViewHolderholder, int position) {
         Article article = articles.get(position);
+        articlesEnVenteViewHolderholder.nomView.setText(article.getNom());
+        articlesEnVenteViewHolderholder.prixView.setText(String.valueOf(article.getPrix()));
         articlesEnVenteViewHolderholder.categorieView.setText(article.getCategorie());
         articlesEnVenteViewHolderholder.descriptionView.setText(article.getDescription());
     }
@@ -63,7 +65,8 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
         final ImageView articlePhotoView;
         final TextView categorieView;
         final TextView descriptionView;
-
+        final TextView nomView;
+        final TextView prixView;
 
         ArticlesEnVenteViewHolder(View view) {
             super(view);
@@ -71,6 +74,8 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
             articlePhotoView = (ImageView) view.findViewById(R.id.article_image);
             categorieView = (TextView) view.findViewById(R.id.article_categorie);
             descriptionView = (TextView) view.findViewById(R.id.article_description);
+            nomView = (TextView) view.findViewById(R.id.article_nom);
+            prixView = (TextView) view.findViewById(R.id.article_prix);
             view.setOnClickListener(this);
         }
 

@@ -28,7 +28,24 @@ public class Article {
         this.mPrix = prix;
     }
 
-    public String getCategorie() {return this.mCategorie; }
+    public String getNom() { return this.mNom; }
 
-    public String getDescription() {return this.mDescription; }
+    public String getCategorie() { return this.mCategorie; }
+
+    public String getDescription() { return this.mDescription; }
+
+    public String getUrlPhoto() { return this.mUrlPhoto; }
+
+    public int getPrix() { return this.mPrix; }
+
+    public void setNom(String nom) { mNom = nom; }
+
+    public void setCategorie(String categorie) { mCategorie = categorie; }
+
+    public void setDescription(String description) { this.mDescription = description; }
+
+    public void setUrlPhoto(String urlPhoto) { this.mUrlPhoto = urlPhoto; }
+
+    public void setPrix(int prix) { mPrix = prix; }
+
 }
