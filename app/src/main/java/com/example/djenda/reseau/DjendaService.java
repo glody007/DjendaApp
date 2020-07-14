@@ -7,8 +7,12 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface DjendaService {
+
+    @GET("/users/{id}/produits")
+    Call<List<Article>> getUserArticles(@Path("id") String id);
 
     @GET("/user")
     Call<User> getUser();
@@ -16,9 +20,9 @@ public interface DjendaService {
     @GET("/produits")
     Call<List<Article>> getArticles();
 
-    @POST("/produits/{id}")
-    Call<Article> createArticle(@Body Article article);
+    @POST("users/{id}/produits")
+    Call<Article> createArticle(@Path("id") String id, @Body Article article);
 
-    @PUT("/produits/{id}")
-    Call<Article> updateArticle(@Body Article article);
+    @PUT("users/{id}/produits")
+    Call<Article> updateArticle(@Path("id") String id, @Body Article article);
 }

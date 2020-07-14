@@ -1,5 +1,7 @@
 package com.example.djenda.reseau;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Repository {
     private static Repository repository = null;
     DjendaService apiService;
-    LiveData<List<Article>> articlesCache = null;
+    LiveData<List<Article>> articlesCache = null, mesArticlesCache = null;
 
     public static Repository getInstance() {
         if(repository == null) {
@@ -70,13 +72,51 @@ public class Repository {
         return articles;
     }
 
-    public void createArticle(Article article, Callback<Article> callBack) {
-        Call<Article> call = this.apiService.createArticle(article);
-        call.enqueue(callBack);
+    public LiveData<List<Article>> getUserArticles() {
+        if(mesArticlesCache != null) {
+            return mesArticlesCache;
+        }
+
+        String id = "1";
+        Call<List<Article>> call = this.apiService.getUserArticles(id);
+        final MutableLiveData<List<Article>> mesArticles = new MutableLiveData<List<Article>>();
+        call.enqueue(new Callback<List<Article>>() {
+            @Override
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                mesArticles.setValue(response.body());
+                mesArticlesCache = mesArticles;
+            }
+
+            @Override
+            public void onFailure(Call<List<Article>>call, Throwable t) {
+                // Log error here since request failed
+            }
+        });
+        return mesArticles;
+    }
+
+    public void createArticle() {
+        Article article = new Article("motorola", "telephone",
+                "5 Gb",
+                "https://res.cloudinary.com/alchemist118/image/upload/w_100,h_100/v1577174204/sample.jpg",
+                100);
+
+        Call<Article> call = this.apiService.createArticle("1", article);
+        call.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+               Log.d(response.body().mNom, response.body().mUrlPhoto);
+            }
+
+            @Override
+            public void onFailure(Call<Article>call, Throwable t) {
+                // Log error here since request failed
+            }
+        });
     }
 
     public void uptdateArticle(Article article, Callback<Article> callBack) {
-        Call<Article> call = this.apiService.updateArticle(article);
+        Call<Article> call = this.apiService.updateArticle("1",article);
         call.enqueue(callBack);
     }
 

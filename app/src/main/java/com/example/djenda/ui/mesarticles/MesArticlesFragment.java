@@ -1,4 +1,4 @@
-package com.example.djenda.ui.articleenvente;
+package com.example.djenda.ui.mesarticles;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,25 +17,26 @@ import com.example.djenda.ArticlesEnVenteAdapter;
 import com.example.djenda.reseau.Article;
 
 import com.example.djenda.R;
+import com.example.djenda.ui.articleenvente.ArticlesEnVenteViewModel;
 
 import java.util.List;
 
 
-public class ArticlesEnVenteFragment extends Fragment implements
+public class MesArticlesFragment extends Fragment implements
         ArticlesEnVenteAdapter.ArticlesEnVenteAdapterOnClickHandler {
 
     private RecyclerView reclyclerView;
     private ArticlesEnVenteAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArticlesEnVenteViewModel model;
+    private MesArticlesViewModel model;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_articles_en_vente, container, false);
+        View root = inflater.inflate(R.layout.fragment_mes_articles, container, false);
 
-        reclyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_articles_en_vente);
+        reclyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_mes_articles);
         reclyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getActivity());
@@ -44,7 +45,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
         mAdapter = new ArticlesEnVenteAdapter(getActivity(), this);
         reclyclerView.setAdapter(mAdapter);
 
-        model = new ViewModelProvider(this).get(ArticlesEnVenteViewModel.class);
+        model = new ViewModelProvider(this).get(MesArticlesViewModel.class);
 
         model.getArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
             @Override
@@ -52,6 +53,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
                 mAdapter.setArticles(newArticles);
             }
         });
+        Log.d("ldjkf", "ldfj");
         return root;
     }
 
