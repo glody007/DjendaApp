@@ -1,6 +1,7 @@
 package com.example.djenda;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.djenda.reseau.Article;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -49,6 +51,8 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
     @Override
     public void onBindViewHolder(@NonNull ArticlesEnVenteViewHolder articlesEnVenteViewHolderholder, int position) {
         Article article = articles.get(position);
+        Uri uri = Uri.parse(article.getUrlPhoto());
+        articlesEnVenteViewHolderholder.articlePhotoView.setImageURI(uri);
         articlesEnVenteViewHolderholder.nomView.setText(article.getNom());
         articlesEnVenteViewHolderholder.prixView.setText(String.valueOf(article.getPrix()));
         articlesEnVenteViewHolderholder.categorieView.setText(article.getCategorie());
@@ -62,7 +66,7 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
     }
 
     class ArticlesEnVenteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final ImageView articlePhotoView;
+        final SimpleDraweeView articlePhotoView;
         final TextView categorieView;
         final TextView descriptionView;
         final TextView nomView;
@@ -71,7 +75,7 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
         ArticlesEnVenteViewHolder(View view) {
             super(view);
 
-            articlePhotoView = (ImageView) view.findViewById(R.id.article_image);
+            articlePhotoView = (SimpleDraweeView) view.findViewById(R.id.article_image);
             categorieView = (TextView) view.findViewById(R.id.article_categorie);
             descriptionView = (TextView) view.findViewById(R.id.article_description);
             nomView = (TextView) view.findViewById(R.id.article_nom);

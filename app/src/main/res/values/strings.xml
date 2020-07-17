@@ -12,6 +12,8 @@
     <string name="menu_articles">Articles</string>
     <string name="capture">capture</string>
 
+    <string name="server_client_id">1046255643666-91nn9ntu6td2enctrensf3ke80hjrsk5.apps.googleusercontent.com</string>
+
     <string name="photos_details_article">photos de l\'article</string>
     <string name="nom_details_article">Nom</string>
     <string name="ti_nom_details_article">nom</string>
@@ -20,4 +22,8 @@
     <string name="ti_prix_details_article">Prix</string>
     <string name="btn_poster_details_article">Poster</string>
     <string name="menu_mes_articles">Mes articles</string>
+    <string name="connexion">Connexion</string>
+    <string name="commentaires_connection">Connectez-vous avec votre compte google en cliquant sur le bouton de connection</string>
+    <string name="deconnexion">Deconnexion</string>
+    <string name="article_en_ventes">Articles en vente</string>
 </resources>

@@ -21,6 +21,7 @@ public class Repository {
     DjendaService apiService;
     LiveData<List<Article>> articlesCache = null, mesArticlesCache = null;
 
+
     public static Repository getInstance() {
         if(repository == null) {
             repository = new Repository();

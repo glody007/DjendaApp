@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/article_nom"
@@ -53,18 +54,17 @@
         app:layout_constraintTop_toBottomOf="@+id/article_prix"
         tools:text="@tools:sample/lorem" />
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/article_image"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="Image de description de l'article"
+        fresco:placeholderImage="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/milieu_horizontal"
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorAccent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
