@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleActivity;
+import com.example.djenda.ui.prendrephoto.PrendrePhotoActivityKt;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,6 +25,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,14 +75,15 @@ public class MainActivity extends AppCompatActivity {
         btn_ajouter_article.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AjouterDetailsArticleActivity.class);
+                Intent intent = new Intent(context, PrendrePhotoActivity.class);
+                //Intent intent = new Intent(context, AjouterDetailsArticleActivity.class);
                 startActivity(intent);
             }
         });
     }
 
 
-    private void signOut() {
+        private void signOut() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

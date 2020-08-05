@@ -12,8 +12,8 @@
     <string name="menu_articles">Articles</string>
     <string name="capture">capture</string>
 
-    <string name="server_client_id">1046255643666-91nn9ntu6td2enctrensf3ke80hjrsk5.apps.googleusercontent.com</string>
-
+    <string name="google_client_id">1046255643666-91nn9ntu6td2enctrensf3ke80hjrsk5.apps.googleusercontent.com</string>
+    <string name="imagekit_io_public_key">public_hZTJIDqZ+LIgQhi0er6ag1HWRrY=</string>
     <string name="photos_details_article">photos de l\'article</string>
     <string name="nom_details_article">Nom</string>
     <string name="ti_nom_details_article">nom</string>

@@ -12,23 +12,38 @@ import com.example.djenda.reseau.Repository;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ArticlesEnVenteViewModel extends AndroidViewModel {
 
-    private LiveData<List<Article>> articles;
+    private MutableLiveData<List<Article>> articles;
     private Repository repository;
 
     public ArticlesEnVenteViewModel(@NonNull Application application) {
         super(application);
 
-        init();
-    }
-
-    public void init() {
         repository = Repository.getInstance();
-        articles = repository.getArticles();
+        articles = new MutableLiveData<List<Article>>();
     }
 
     public LiveData<List<Article>> getArticles() {
+
+        if(repository.getArticlesCache() != null) { return repository.getArticlesCache(); }
+
+        repository.getArticles(new Callback<List<Article>>() {
+            @Override
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                articles.setValue(response.body());
+                repository.setArticlesCache(articles);
+            }
+
+            @Override
+            public void onFailure(Call<List<Article>> call, Throwable t) {
+                // Log error here since request failed
+            }
+        });
         return articles;
     }
 }

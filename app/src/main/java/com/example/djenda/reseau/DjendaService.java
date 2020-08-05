@@ -21,8 +21,15 @@ public interface DjendaService {
     Call<List<Article>> getArticles();
 
     @POST("users/{id}/produits")
-    Call<Article> createArticle(@Path("id") String id, @Body Article article);
+    Call<List<Article>> createArticle(@Path("id") String id, @Body Article article);
 
     @PUT("users/{id}/produits")
     Call<Article> updateArticle(@Path("id") String id, @Body Article article);
+
+    @GET("/auth_endpoint")
+    Call<Auth> getAuth();
+
+    @GET("/verify_oauth2_token/{token}")
+    Call<Verification> verify_oauth2_token(@Path("token") String token);
+
 }

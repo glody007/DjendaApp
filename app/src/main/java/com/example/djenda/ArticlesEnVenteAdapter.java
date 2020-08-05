@@ -51,7 +51,7 @@ public class ArticlesEnVenteAdapter extends RecyclerView.Adapter<ArticlesEnVente
     @Override
     public void onBindViewHolder(@NonNull ArticlesEnVenteViewHolder articlesEnVenteViewHolderholder, int position) {
         Article article = articles.get(position);
-        Uri uri = Uri.parse(article.getUrlPhoto());
+        Uri uri = Uri.parse(article.getUrlThumbnailPhoto());
         articlesEnVenteViewHolderholder.articlePhotoView.setImageURI(uri);
         articlesEnVenteViewHolderholder.nomView.setText(article.getNom());
         articlesEnVenteViewHolderholder.prixView.setText(String.valueOf(article.getPrix()));

@@ -1,16 +1,16 @@
 package com.example.djenda;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.djenda.reseau.Repository;
+import com.example.djenda.reseau.Verification;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -18,6 +18,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken(getString(R.string.google_client_id))
                 .build();
 
         // Build a GoogleSignInClient with the options specified by gso.
@@ -82,6 +87,18 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
+            Log.w("----Login----", account.getIdToken());
+            Repository.getInstance().verify_oauth_token(account.getIdToken(), new Callback<Verification>() {
+                @Override
+                public void onResponse(Call<Verification> call, Response<Verification> response) {
+                    Log.d("Verification", Boolean.toString(response.body().getVerify()));
+                }
+
+                @Override
+                public void onFailure(Call<Verification>call, Throwable t) {
+                    // Log error here since request failed
+                }
+            });
             updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

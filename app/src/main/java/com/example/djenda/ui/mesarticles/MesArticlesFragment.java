@@ -21,6 +21,10 @@ import com.example.djenda.ui.articleenvente.ArticlesEnVenteViewModel;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MesArticlesFragment extends Fragment implements
         ArticlesEnVenteAdapter.ArticlesEnVenteAdapterOnClickHandler {
@@ -47,7 +51,7 @@ public class MesArticlesFragment extends Fragment implements
 
         model = new ViewModelProvider(this).get(MesArticlesViewModel.class);
 
-        model.getArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
+        model.getUserArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
                 mAdapter.setArticles(newArticles);
