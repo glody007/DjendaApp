@@ -1,70 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/article_nom"
-        android:layout_width="wrap_content"
+    <data>
+        <variable
+            name="article"
+            type="com.example.djenda.reseau.Article" />
+
+        <variable
+            name="clickListener"
+            type="com.example.djenda.ArticlesAdapter.ArticlesAdapterOnClickHandler" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
-        app:layout_constraintTop_toTopOf="@+id/article_image"
-        tools:text="@tools:sample/lorem"
-        android:layout_marginLeft="8dp" />
+        android:onClick="@{() -> clickListener.onClick(article) }">
 
-    <TextView
-        android:id="@+id/article_categorie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/article_nom"
-        tools:text="@tools:sample/lorem"
-        android:layout_marginLeft="8dp" />
+        <TextView
+            android:id="@+id/article_nom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@={article.nom}"
+            app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
+            app:layout_constraintTop_toTopOf="@+id/article_image"
+            tools:text="@tools:sample/lorem"
+            android:layout_marginLeft="8dp" />
 
-    <TextView
-        android:id="@+id/article_prix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/article_categorie"
-        tools:text="@tools:sample/lorem"
-        android:layout_marginLeft="8dp" />
+        <TextView
+            android:id="@+id/article_categorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@={article.categorie}"
+            app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/article_nom"
+            tools:text="@tools:sample/lorem"
+            android:layout_marginLeft="8dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/milieu_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        <TextView
+            android:id="@+id/article_prix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/article_categorie"
+            tools:text="@tools:sample/lorem"
+            android:layout_marginLeft="8dp"
+            app:articlePrix="@{article}"/>
 
-    <TextView
-        android:id="@+id/article_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/article_categorie"
-        app:layout_constraintTop_toBottomOf="@+id/article_prix"
-        tools:text="@tools:sample/lorem" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/milieu_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/article_image"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        fresco:placeholderImage="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/milieu_horizontal"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        <TextView
+            android:id="@+id/article_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@={article.description}"
+            app:layout_constraintStart_toStartOf="@+id/article_categorie"
+            app:layout_constraintTop_toBottomOf="@+id/article_prix"
+            tools:text="@tools:sample/lorem" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/article_image"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            fresco:placeholderImage="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/milieu_horizontal"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:articleThumbnailImage="@{article}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

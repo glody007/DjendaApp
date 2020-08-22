@@ -45,9 +45,9 @@ public class Repository {
 
         DjendaApplication.Companion.getAppComponent().inject(this);
 
-        final String URL_DJENDA = "http://10.0.2.2:5000";
+        //final String URL_DJENDA = "http://10.0.2.2:5000";
         final String URL_IMAGEKITIO_API = "https://upload.imagekit.io/api/v1/";
-        //final String BASE_URL = "https://djendardc.herokuapp.com";
+        final String URL_DJENDA  = "https://djendardc.herokuapp.com";
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="article"
+            type="com.example.djenda.reseau.Article" />
+
+        <variable
+            name="viewModel"
+            type="com.example.djenda.ui.articledetails.ArticleDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/article_image"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@android:color/black"
+            app:articleImage="@{article}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            fresco:placeholderImage="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/title_article_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:text="@string/tv_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/article_image" />
+
+        <TextView
+            android:id="@+id/article_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:text="@{article.description}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_article_description"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/title_article_prix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:text="@string/tv_prix"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/article_description" />
+
+        <TextView
+            android:id="@+id/article_prix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            app:articlePrix="@{article}"
+            app:layout_constraintStart_toEndOf="@id/title_article_prix"
+            app:layout_constraintTop_toBottomOf="@id/article_description"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/title_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:text="@string/tv_title_contact"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_article_prix" />
+
+        <Button
+            android:id="@+id/btn_message_vendeur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:layout_marginEnd="203dp"
+            android:text="@string/message"
+            app:cornerRadius="50dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_appel_vendeur"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_contact"
+            android:onClick="@{ () -> viewModel.onSendMessage() }"/>
+
+        <Button
+            android:id="@+id/btn_appel_vendeur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:layout_marginStart="105dp"
+            android:text="@string/appel"
+            app:cornerRadius="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_message_vendeur"
+            app:layout_constraintTop_toBottomOf="@id/title_contact"
+            android:onClick="@{ () -> viewModel.onCall() }"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

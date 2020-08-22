@@ -9,12 +9,20 @@
         android:id="@+id/nav_articles"
         android:name="com.example.djenda.ui.articleenvente.ArticlesEnVenteFragment"
         android:label="@string/menu_articles"
-        tools:layout="@layout/fragment_articles_en_vente" />
+        tools:layout="@layout/fragment_articles_en_vente" >
+        <action
+            android:id="@+id/action_nav_articles_to_nav_mes_articles"
+            app:destination="@id/nav_mes_articles" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_mes_articles"
         android:name="com.example.djenda.ui.mesarticles.MesArticlesFragment"
         android:label="@string/menu_mes_articles"
-        tools:layout="@layout/fragment_mes_articles" />
+        tools:layout="@layout/fragment_mes_articles" >
+        <action
+            android:id="@+id/action_nav_mes_articles_to_nav_articles"
+            app:destination="@id/nav_articles" />
+    </fragment>
 
 </navigation>

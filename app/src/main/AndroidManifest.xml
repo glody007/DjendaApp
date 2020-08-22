@@ -21,12 +21,6 @@
 
         <activity
             android:name="com.example.djenda.MainActivity"
-            android:label="@string/article_en_ventes"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
-        <activity android:name="com.example.djenda.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -37,32 +31,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleActivity"
-            android:label="Details de l'article"
-            android:parentActivityName="com.example.djenda.MainActivity">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.djenda.MainActivity" />
-        </activity>
-
-        <activity android:name="com.example.djenda.ui.prendrephoto.PrendrePhotoActivity"
-            android:label="Photos de l'article"
-            android:parentActivityName="com.example.djenda.MainActivity">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.djenda.MainActivity" />
-        </activity>
-
-        <activity android:name="com.example.djenda.PrendrePhotoActivity"
-            android:label="Photos de l'article"
-            android:parentActivityName="com.example.djenda.MainActivity">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.djenda.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

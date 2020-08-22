@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.djenda.ui.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_loginFragment_to_articlesFragment"
+            app:destination="@id/articlesFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/app_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/articlesFragment"
+        android:name="com.example.djenda.ui.main.ArticlesFragment"
+        android:label="Djjenda"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_articlesFragment_to_prendrePhotoFragment"
+            app:destination="@id/prendrePhotoFragment" />
+        <action
+            android:id="@+id/action_articlesFragment_to_articleDetailsFragment"
+            app:destination="@id/articleDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/prendrePhotoFragment"
+        android:name="com.example.djenda.ui.prendrephoto.PrendrePhotoFragment"
+        android:label="PrendrePhotoFragment"
+        tools:layout="@layout/fragment_prendre_photo">
+        <action
+            android:id="@+id/action_prendrePhotoFragment_to_ajouterDetailsArticleFragment"
+            app:destination="@id/ajouterDetailsArticleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ajouterDetailsArticleFragment"
+        android:name="com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleFragment"
+        android:label="Details de l'article"
+        tools:layout="@layout/fragment_ajouter_details_article">
+        <argument
+            android:name="photo_uri"
+            app:argType="string" />
+        <argument
+            android:name="photo_name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleDetailsFragment"
+        android:name="com.example.djenda.ui.articledetails.ArticleDetailsFragment"
+        android:label="Details de l'article"
+        tools:layout="@layout/fragment_article_details" />
+</navigation>

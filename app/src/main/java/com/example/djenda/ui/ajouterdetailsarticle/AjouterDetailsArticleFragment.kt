@@ -11,27 +11,31 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.djenda.R
-import com.example.djenda.databinding.ActivityAjouterDetailsArticleBinding
+import com.example.djenda.databinding.FragmentAjouterDetailsArticleBinding
 import com.example.djenda.reseau.Repository
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
 
-class AjouterDetailsArticleActivity : AppCompatActivity() {
-    lateinit var binding : ActivityAjouterDetailsArticleBinding
+
+class AjouterDetailsArticleFragment : Fragment() {
+
+    lateinit var binding : FragmentAjouterDetailsArticleBinding
     lateinit var viewModel: AjouterDetailsArticleViewModel
     private var mImageName: String? = null
     private var mImageBitmap: Bitmap? = null
-    private lateinit var fusedLocationClient: FusedLocationProviderClient;
-    private lateinit var locationCallback: LocationCallback
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest : LocationRequest
 
     companion object {
@@ -39,49 +43,56 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
         const val LOCATION_PERMISSION_REQUEST = 200
     }
 
-
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_ajouter_details_article)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        binding  = DataBindingUtil.inflate(inflater, R.layout.fragment_ajouter_details_article, container, false)
 
         viewModel = ViewModelProviders.of(this).get(AjouterDetailsArticleViewModel::class.java)
 
         setupArticleImageAndImagName()
         getLocation()
 
+        binding.viewModel = viewModel
         binding.btnPosterDetailsArticle.setOnClickListener{
-            viewModel.article.description = binding.tiDescriptionDetailsArticle.text.toString()
-            viewModel.article.nom = binding.tiNomDetailsArticle.text.toString()
-            viewModel.article.categorie = binding.tiCategorieDetailsArticle.text.toString()
-            viewModel.article.prix = binding.tiPrixDetailsArticle.text.toString().toInt()
             viewModel.publicKey = getString(R.string.imagekit_io_public_key)
-
             viewModel.postArticle()
         }
 
-        viewModel.eventArticlePosted.observe(this, Observer {
+        viewModel.btnEnabled.observe(viewLifecycleOwner, Observer {
             if(it) {
-                Toast.makeText(this, "Article posted", Toast.LENGTH_LONG).show()
+                Log.d("Bouton", "enabled")
+            }
+            else {
+                Log.d("Bouton", "disabled")
             }
         })
 
-        viewModel.eventErrorWhenPostingArticle.observe(this, Observer {
+        viewModel.eventArticlePosted.observe(viewLifecycleOwner, Observer {
             if(it) {
-                Toast.makeText(this, "Error when posting article", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Article posted", Toast.LENGTH_LONG).show()
             }
         })
+
+        viewModel.eventErrorWhenPostingArticle.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                Toast.makeText(context, "Error when posting article", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        return binding.root
     }
 
     private fun setupArticleImageAndImagName() {
-        val extras = intent.extras
-        if (extras != null) {
-            //val image_path = extras.getString("photo_uri")
-            mImageName = extras.getString("photo_name")
+
+        arguments?.let {
+            val args = AjouterDetailsArticleFragmentArgs.fromBundle(it)
+            mImageName = args.photoName
             mImageBitmap = BitmapFactory.decodeByteArray(Repository.getInstance().photArticle, 0, Repository.getInstance().photArticle.size)
             binding.ivImageArticle.setImageBitmap(mImageBitmap)
             viewModel.fileName = mImageName.toString()
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -94,7 +105,7 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
         val builder = LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
 
-        val task = LocationServices.getSettingsClient(this)
+        val task = LocationServices.getSettingsClient(requireContext())
                 .checkLocationSettings(builder.build())
 
         setupListenersForLocationSettings(task)
@@ -103,7 +114,7 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun setupListenersForLocationSettings(task : Task<LocationSettingsResponse>) {
-        task.addOnSuccessListener { locationSettingsResponse ->
+        task.addOnSuccessListener {
             startLocationUpdates()
         }
 
@@ -115,7 +126,7 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
 
-                    exception.startResolutionForResult(this@AjouterDetailsArticleActivity, LOCATION_SETTING_REQUEST)
+                    exception.startResolutionForResult(activity, LOCATION_SETTING_REQUEST)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }
@@ -126,10 +137,10 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     fun startLocationUpdates() {
         if (ContextCompat.checkSelfPermission(
-                        this, Manifest.permission.ACCESS_FINE_LOCATION
+                        requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED) {
 
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
             fusedLocationClient.requestLocationUpdates(
                     locationRequest,
@@ -138,7 +149,7 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
             )
         } else {
             // You can directly ask for the permission.
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST);
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST)
         }
     }
 
@@ -192,4 +203,6 @@ class AjouterDetailsArticleActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

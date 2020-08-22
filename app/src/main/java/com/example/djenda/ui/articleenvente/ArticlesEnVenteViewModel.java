@@ -19,6 +19,7 @@ import retrofit2.Response;
 public class ArticlesEnVenteViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Article>> articles;
+    private MutableLiveData<Boolean> navigateToArticleDetails;
     private Repository repository;
 
     public ArticlesEnVenteViewModel(@NonNull Application application) {
@@ -26,6 +27,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel {
 
         repository = Repository.getInstance();
         articles = new MutableLiveData<List<Article>>();
+        navigateToArticleDetails = new MutableLiveData<Boolean>(false);
     }
 
     public LiveData<List<Article>> getArticles() {
@@ -45,5 +47,17 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel {
             }
         });
         return articles;
+    }
+
+    public LiveData<Boolean> getNavigateToArticleDetails() {
+        return navigateToArticleDetails;
+    }
+
+    public void onArticleClicked() {
+        navigateToArticleDetails.setValue(true);
+    }
+
+    public void onArticleDetailsNavigated() {
+        navigateToArticleDetails.setValue(false);
     }
 }

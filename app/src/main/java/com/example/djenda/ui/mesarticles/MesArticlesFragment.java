@@ -1,10 +1,10 @@
 package com.example.djenda.ui.mesarticles;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,26 +13,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.djenda.ArticlesEnVenteAdapter;
+import com.example.djenda.ArticlesAdapter;
 import com.example.djenda.reseau.Article;
-
 import com.example.djenda.R;
-import com.example.djenda.ui.articleenvente.ArticlesEnVenteViewModel;
-
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MesArticlesFragment extends Fragment implements
-        ArticlesEnVenteAdapter.ArticlesEnVenteAdapterOnClickHandler {
+        ArticlesAdapter.ArticlesAdapterOnClickHandler {
 
     private RecyclerView reclyclerView;
-    private ArticlesEnVenteAdapter mAdapter;
+    private ArticlesAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private MesArticlesViewModel model;
+    private MesArticlesViewModel mesArticlesViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,25 +40,25 @@ public class MesArticlesFragment extends Fragment implements
         layoutManager = new LinearLayoutManager(getActivity());
         reclyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ArticlesEnVenteAdapter(getActivity(), this);
+        mAdapter = new ArticlesAdapter(this);
         reclyclerView.setAdapter(mAdapter);
 
-        model = new ViewModelProvider(this).get(MesArticlesViewModel.class);
+        mesArticlesViewModel = new ViewModelProvider(this).get(MesArticlesViewModel.class);
 
-        model.getUserArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
+        mesArticlesViewModel.getUserArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
                 mAdapter.setArticles(newArticles);
             }
         });
-        Log.d("ldjkf", "ldfj");
+
         return root;
     }
 
 
     @Override
-    public void onClick() {
-
+    public void onClick(Article article) {
+        Toast.makeText(getContext(), article.getNom(), Toast.LENGTH_LONG).show();
     }
 
 }

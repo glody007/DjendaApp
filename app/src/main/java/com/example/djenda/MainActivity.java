@@ -7,8 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleActivity;
-import com.example.djenda.ui.prendrephoto.PrendrePhotoActivityKt;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,7 +25,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,52 +36,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_with_fragment);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupBoutonAjouterArticle();
-
-        setupDrawerAndNavigationView();
-    }
-
-    private void setupDrawerAndNavigationView() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_articles, R.id.nav_mes_articles)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.item_deconnexion) {
-                    signOut();
-                }
-                return false;
-            }
-        });
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_with);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(R.id.loginFragment, R.id.articlesFragment).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
     }
-
-    private void setupBoutonAjouterArticle() {
-        final Context context = this;
-        FloatingActionButton btn_ajouter_article = findViewById(R.id.btn_ajouter_article);
-        btn_ajouter_article.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, PrendrePhotoActivity.class);
-                //Intent intent = new Intent(context, AjouterDetailsArticleActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
 
         private void signOut() {
         // Configure sign-in to request the user's ID, email address, and basic
@@ -98,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(context, LoginActivity.class));
+                        //startActivity(new Intent(context, LoginActivity.class));
                     }
                 });
     }
@@ -112,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_with);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }

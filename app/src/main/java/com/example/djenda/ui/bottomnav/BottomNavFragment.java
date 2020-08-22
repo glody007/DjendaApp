@@ -23,22 +23,8 @@ public class BottomNavFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_bottom_nav, container, false);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) root.findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_articles);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                return NavigationUI.onNavDestinationSelected(item, navController)
-                        || BottomNavFragment.super.onOptionsItemSelected(item);
-
-            }
-        });
-
+        bottomNavigationView.setSelectedItemId(R.id.nav_mes_articles);
         return root;
     }
 
-
-    public void prendrePhoto() {
-
-    }
 }

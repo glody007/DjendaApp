@@ -20,6 +20,12 @@ class AjouterDetailsArticleViewModel : ViewModel() {
     lateinit var urlImage : String
     lateinit var fileName : String
     lateinit var publicKey: String
+    var articlePrixString: String = ""
+        set(value) { article.prix = value.toInt() }
+
+    private val _btnEnabled = MutableLiveData<Boolean>()
+    val btnEnabled : LiveData<Boolean>
+        get() = _btnEnabled
 
     private val _eventArticlePosted = MutableLiveData<Boolean>()
     val eventArticlePosted : LiveData<Boolean>
@@ -30,10 +36,19 @@ class AjouterDetailsArticleViewModel : ViewModel() {
         get() = _eventErrorWhenPostingArticle
 
     init {
+        _btnEnabled.value = false
         _eventArticlePosted.value = false
         _eventErrorWhenPostingArticle.value = false
         image = BitmapFactory.decodeByteArray(repository.photArticle, 0, repository.photArticle.size)
         article = Article()
+    }
+
+    fun onTextChanged() {
+        _btnEnabled.value = article.nom.length > 3
+    }
+
+    fun enabled() : Boolean {
+        return article.nom.length > 3
     }
 
     fun setLocation(longitude : String, latitude : String) {
