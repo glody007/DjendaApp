@@ -1,5 +1,6 @@
 package com.example.djenda.ui.main
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.djenda.R
 import com.example.djenda.databinding.FragmentMainBinding
+import com.example.djenda.reseau.Repository
+import com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleFragmentArgs
 import com.example.djenda.ui.articleenvente.ArticlesEnVenteFragment
 import com.example.djenda.ui.mesarticles.MesArticlesFragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -51,6 +55,14 @@ class ArticlesFragment : Fragment() {
                 else -> "Mes articles"
             }
         }.attach()
+
+        arguments?.let {
+            val args = ArticlesFragmentArgs.fromBundle(it)
+            if(args.articlePosted) {
+                Snackbar.make(binding.root, R.string.article_posted_message, Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     class ArticlesPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {

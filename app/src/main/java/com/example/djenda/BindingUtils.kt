@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 fun TextView.setArticlePrixString(article : Article?) {
     article?.let {
         val prix : Int = article.prix
-        text = prix.toString()
+        text = "$prix$"
     }
 }
 

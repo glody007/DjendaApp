@@ -21,12 +21,15 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.example.djenda.R
 import com.example.djenda.databinding.FragmentAjouterDetailsArticleBinding
 import com.example.djenda.reseau.Repository
+import com.example.djenda.ui.prendrephoto.PrendrePhotoFragmentDirections
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 
 
 class AjouterDetailsArticleFragment : Fragment() {
@@ -57,30 +60,55 @@ class AjouterDetailsArticleFragment : Fragment() {
         binding.btnPosterDetailsArticle.setOnClickListener{
             viewModel.publicKey = getString(R.string.imagekit_io_public_key)
             viewModel.postArticle()
+            showLoading()
         }
 
         viewModel.btnEnabled.observe(viewLifecycleOwner, Observer {
-            if(it) {
-                Log.d("Bouton", "enabled")
-            }
-            else {
-                Log.d("Bouton", "disabled")
-            }
+            binding.btnPosterDetailsArticle.isEnabled = it
         })
 
         viewModel.eventArticlePosted.observe(viewLifecycleOwner, Observer {
             if(it) {
-                Toast.makeText(context, "Article posted", Toast.LENGTH_LONG).show()
+                navigateToarticlesFragment()
+                viewModel.onArticlePostedFinished()
             }
         })
 
         viewModel.eventErrorWhenPostingArticle.observe(viewLifecycleOwner, Observer {
             if(it) {
-                Toast.makeText(context, "Error when posting article", Toast.LENGTH_LONG).show()
+                showForm()
+                Snackbar.make(binding.root, R.string.connection_problem_message, Snackbar.LENGTH_LONG).show()
+                viewModel.onErrorWhenPostingArticleFinished()
             }
         })
 
+        showForm()
+
         return binding.root
+    }
+
+    private fun navigateToarticlesFragment() {
+        Navigation.findNavController(binding.root)
+                .navigate(AjouterDetailsArticleFragmentDirections
+                        .actionAjouterDetailsArticleFragmentToArticlesFragment(true))
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        formEnabled(false)
+    }
+
+    private fun showForm() {
+        binding.progressBar.visibility = View.GONE
+        formEnabled(true)
+    }
+
+    private fun formEnabled(enabled : Boolean) {
+        binding.ilNomDetailsArticle.isEnabled = enabled
+        binding.ilCategorieDetailsArticle.isEnabled = enabled
+        binding.ilDescriptionDetailsArticle.isEnabled = enabled
+        binding.ilPrixDetailsArticle.isEnabled = enabled
+        binding.btnPosterDetailsArticle.isEnabled = enabled
     }
 
     private fun setupArticleImageAndImagName() {

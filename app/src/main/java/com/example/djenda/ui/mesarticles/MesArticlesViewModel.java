@@ -21,11 +21,15 @@ public class MesArticlesViewModel extends AndroidViewModel {
 
     private Repository repository;
     private MutableLiveData<List<Article>> mesArticles;
+    private MutableLiveData<Boolean> navigateToArticleDetails;
+    private MutableLiveData<Boolean> eventErrorDownloadArticles;
 
     public MesArticlesViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance();
         mesArticles = new MutableLiveData<List<Article>>();
+        navigateToArticleDetails = new MutableLiveData<Boolean>(false);
+        eventErrorDownloadArticles = new MutableLiveData<Boolean>(false);
     }
 
 
@@ -42,10 +46,26 @@ public class MesArticlesViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
-                // Log error here since request failed
+                eventErrorDownloadArticles.setValue(true);
             }
         });
        return mesArticles;
+    }
+
+    public LiveData<Boolean> getNavigateToArticleDetails() {
+        return navigateToArticleDetails;
+    }
+
+    public LiveData<Boolean> eventErrorDownloadArticles() { return eventErrorDownloadArticles; }
+
+    public void onErrorDownloadArticlesFinished() { eventErrorDownloadArticles.setValue(false); }
+
+    public void onArticleClicked() {
+        navigateToArticleDetails.setValue(true);
+    }
+
+    public void onArticleDetailsNavigated() {
+        navigateToArticleDetails.setValue(false);
     }
 
 }

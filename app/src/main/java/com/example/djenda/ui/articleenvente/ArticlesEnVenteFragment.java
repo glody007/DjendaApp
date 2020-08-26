@@ -6,19 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.djenda.ArticlesAdapter;
+import com.example.djenda.databinding.FragmentArticlesEnVenteBinding;
 import com.example.djenda.reseau.Article;
 
 import com.example.djenda.R;
 import com.example.djenda.ui.SharedArticleViewModel;
 import com.example.djenda.ui.main.ArticlesFragmentDirections;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -29,22 +33,25 @@ public class ArticlesEnVenteFragment extends Fragment implements
     private ArticlesAdapter mAdapter;
     private ArticlesEnVenteViewModel articlesEnVenteViewModel;
     private SharedArticleViewModel sharedArticleViewModel;
-    private View root;
+    private FragmentArticlesEnVenteBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_articles_en_vente, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_articles_en_vente, container, false);
 
-        RecyclerView reclyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_articles_en_vente);
-        reclyclerView.setHasFixedSize(true);
+        RecyclerView recyclerView = (RecyclerView) binding.recyclerviewArticlesEnVente;
+        recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        reclyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new ArticlesAdapter(this);
-        reclyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
+
+        DividerItemDecoration itemDecor = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+        recyclerView.addItemDecoration(itemDecor);
 
         articlesEnVenteViewModel = new ViewModelProvider(this).get(ArticlesEnVenteViewModel.class);
         sharedArticleViewModel = new ViewModelProvider(requireActivity()).get(SharedArticleViewModel.class);
@@ -53,6 +60,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
                 mAdapter.setArticles(newArticles);
+                showArticles();
             }
         });
 
@@ -60,7 +68,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
             @Override
             public void onChanged(Boolean navigate) {
                 if(navigate) {
-                    Navigation.findNavController(root).navigate(ArticlesFragmentDirections
+                    Navigation.findNavController(binding.getRoot()).navigate(ArticlesFragmentDirections
                             .actionArticlesFragmentToArticleDetailsFragment());
                     articlesEnVenteViewModel.onArticleDetailsNavigated();
                 }
@@ -68,9 +76,39 @@ public class ArticlesEnVenteFragment extends Fragment implements
             }
         });
 
-        return root;
+        articlesEnVenteViewModel.eventErrorDownloadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean error) {
+                if(error) {
+                    Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
+                    showErrorDownload();
+                    articlesEnVenteViewModel.onErrorDownloadArticlesFinished();
+                }
+            }
+        });
+
+        showLoading();
+
+        return binding.getRoot();
     }
 
+    public void showArticles() {
+        binding.recyclerviewArticlesEnVente.setVisibility(View.VISIBLE);
+        binding.errorMessage.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
+    public void showErrorDownload() {
+        binding.errorMessage.setVisibility(View.VISIBLE);
+        binding.recyclerviewArticlesEnVente.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
+    public void showLoading() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.recyclerviewArticlesEnVente.setVisibility(View.GONE);
+        binding.errorMessage.setVisibility(View.GONE);
+    }
 
     @Override
     public void onClick(Article article) {

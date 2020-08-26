@@ -11,12 +11,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabBackground="@color/colorPrimary"
+            app:tabBackground="@color/primaryLightColor"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#F10A5A"
+            app:tabIndicatorColor="@color/primaryDarkColor"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="#F10A5A">
+            app:tabSelectedTextColor="@color/primaryDarkColor">
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -36,7 +36,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="100dp"
-            app:backgroundTint="#F10A5A"
+            app:backgroundTint="@color/primaryDarkColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_baseline_add_24"

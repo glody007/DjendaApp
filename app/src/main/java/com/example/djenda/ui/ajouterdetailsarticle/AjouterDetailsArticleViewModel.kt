@@ -21,7 +21,11 @@ class AjouterDetailsArticleViewModel : ViewModel() {
     lateinit var fileName : String
     lateinit var publicKey: String
     var articlePrixString: String = ""
-        set(value) { article.prix = value.toInt() }
+        set(value) {
+            field = value
+            if(field.isBlank()) article.prix = 0
+            else article.prix = value.toInt()
+        }
 
     private val _btnEnabled = MutableLiveData<Boolean>()
     val btnEnabled : LiveData<Boolean>
@@ -43,12 +47,13 @@ class AjouterDetailsArticleViewModel : ViewModel() {
         article = Article()
     }
 
-    fun onTextChanged() {
-        _btnEnabled.value = article.nom.length > 3
-    }
+    fun onTextChanged() { _btnEnabled.value = enabled() }
 
     fun enabled() : Boolean {
-        return article.nom.length > 3
+        return (article.nom.isNotBlank() and
+                article.description.isNotBlank() and
+                article.categorie.isNotBlank() and
+                articlePrixString.isNotBlank())
     }
 
     fun setLocation(longitude : String, latitude : String) {
@@ -105,6 +110,10 @@ class AjouterDetailsArticleViewModel : ViewModel() {
 
     fun onErrorWhenPostingArticleFinished() {
         _eventErrorWhenPostingArticle.value = false
+    }
+
+    fun onArticlePostedFinished() {
+        _eventArticlePosted.value = false
     }
 
 }

@@ -15,6 +15,7 @@ import com.example.djenda.R
 import com.example.djenda.databinding.FragmentLoginBinding
 import com.example.djenda.reseau.Repository
 import com.example.djenda.reseau.Verification
+import com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleFragmentDirections
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -61,7 +62,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun signIn(view : View) {
-        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_articlesFragment)
+        Navigation.findNavController(binding.root)
+                .navigate(LoginFragmentDirections.actionLoginFragmentToArticlesFragment(false))
         //val signInIntent = mGoogleSignInClient?.signInIntent
         //startActivityForResult(signInIntent, RC_SIGN_IN)
     }

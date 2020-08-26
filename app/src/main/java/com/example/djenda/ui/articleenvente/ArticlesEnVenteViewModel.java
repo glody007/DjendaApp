@@ -20,6 +20,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Article>> articles;
     private MutableLiveData<Boolean> navigateToArticleDetails;
+    private MutableLiveData<Boolean> eventErrorDownloadArticles;
     private Repository repository;
 
     public ArticlesEnVenteViewModel(@NonNull Application application) {
@@ -28,6 +29,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel {
         repository = Repository.getInstance();
         articles = new MutableLiveData<List<Article>>();
         navigateToArticleDetails = new MutableLiveData<Boolean>(false);
+        eventErrorDownloadArticles = new MutableLiveData<Boolean>(false);
     }
 
     public LiveData<List<Article>> getArticles() {
@@ -43,7 +45,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
-                // Log error here since request failed
+                eventErrorDownloadArticles.setValue(true);
             }
         });
         return articles;
@@ -52,6 +54,10 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel {
     public LiveData<Boolean> getNavigateToArticleDetails() {
         return navigateToArticleDetails;
     }
+
+    public LiveData<Boolean> eventErrorDownloadArticles() { return eventErrorDownloadArticles; }
+
+    public void onErrorDownloadArticlesFinished() { eventErrorDownloadArticles.setValue(false); }
 
     public void onArticleClicked() {
         navigateToArticleDetails.setValue(true);

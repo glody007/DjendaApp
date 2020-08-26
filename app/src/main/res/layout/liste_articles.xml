@@ -20,70 +20,65 @@
         android:layout_height="wrap_content"
         android:onClick="@{() -> clickListener.onClick(article) }">
 
-        <TextView
-            android:id="@+id/article_nom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@={article.nom}"
-            app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
-            app:layout_constraintTop_toTopOf="@+id/article_image"
-            tools:text="@tools:sample/lorem"
-            android:layout_marginLeft="8dp" />
 
         <TextView
             android:id="@+id/article_categorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/spacing_small"
             android:text="@={article.categorie}"
-            app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
-            app:layout_constraintTop_toBottomOf="@id/article_nom"
-            tools:text="@tools:sample/lorem"
-            android:layout_marginLeft="8dp" />
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            app:layout_constraintBottom_toTopOf="@+id/article_description"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/container_article_image"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:layout_editor_absoluteX="214dp"
+            tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/article_prix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/milieu_horizontal"
-            app:layout_constraintTop_toBottomOf="@id/article_categorie"
-            tools:text="@tools:sample/lorem"
-            android:layout_marginLeft="8dp"
-            app:articlePrix="@{article}"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/milieu_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_corner"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            app:articlePrix="@{article}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/article_categorie"
+            tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/article_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@={article.description}"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/article_categorie"
-            app:layout_constraintTop_toBottomOf="@+id/article_prix"
+            app:layout_constraintTop_toBottomOf="@+id/article_categorie"
             tools:text="@tools:sample/lorem" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/article_image"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="8dp"
-            fresco:placeholderImage="@drawable/ic_launcher_background"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/container_article_image"
+            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            app:cardCornerRadius="30dp"
+            app:cardBackgroundColor="@color/primaryLightColor"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/milieu_horizontal"
-            app:layout_constraintHorizontal_bias="0.571"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:articleThumbnailImage="@{article}"/>
+            app:layout_constraintTop_toTopOf="parent">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/article_image"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                app:articleThumbnailImage="@{article}"
+                fresco:placeholderImage="@drawable/ic_launcher_background" />
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

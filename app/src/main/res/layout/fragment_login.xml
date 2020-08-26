@@ -45,7 +45,7 @@
             android:shadowColor="#FFFFFF"
             android:text="@string/commentaires_connection"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
+            android:textAppearance="?attr/textAppearanceHeadline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_connection" />

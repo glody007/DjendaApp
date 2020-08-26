@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,8 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.djenda.ArticlesAdapter;
+import com.example.djenda.databinding.FragmentMesArticlesBinding;
 import com.example.djenda.reseau.Article;
 import com.example.djenda.R;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 
@@ -27,14 +31,15 @@ public class MesArticlesFragment extends Fragment implements
     private ArticlesAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MesArticlesViewModel mesArticlesViewModel;
+    private FragmentMesArticlesBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_mes_articles, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mes_articles, container, false);
 
-        reclyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_mes_articles);
+        reclyclerView = (RecyclerView) binding.recyclerviewMesArticles;
         reclyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getActivity());
@@ -49,12 +54,43 @@ public class MesArticlesFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
                 mAdapter.setArticles(newArticles);
+                showArticles();
             }
         });
 
-        return root;
+        mesArticlesViewModel.eventErrorDownloadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean error) {
+                if(error) {
+                    Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
+                    showErrorDownload();
+                    mesArticlesViewModel.onErrorDownloadArticlesFinished();
+                }
+            }
+        });
+
+        showLoading();
+
+        return binding.getRoot();
     }
 
+    public void showArticles() {
+        binding.recyclerviewMesArticles.setVisibility(View.VISIBLE);
+        binding.errorMessage.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
+    public void showErrorDownload() {
+        binding.errorMessage.setVisibility(View.VISIBLE);
+        binding.recyclerviewMesArticles.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
+    public void showLoading() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.recyclerviewMesArticles.setVisibility(View.GONE);
+        binding.errorMessage.setVisibility(View.GONE);
+    }
 
     @Override
     public void onClick(Article article) {
