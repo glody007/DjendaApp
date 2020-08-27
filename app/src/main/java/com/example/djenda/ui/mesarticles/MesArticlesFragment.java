@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.example.djenda.ArticlesAdapter;
 import com.example.djenda.databinding.FragmentMesArticlesBinding;
 import com.example.djenda.reseau.Article;
 import com.example.djenda.R;
+import com.example.djenda.ui.main.ArticlesFragmentDirections;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -50,11 +52,13 @@ public class MesArticlesFragment extends Fragment implements
 
         mesArticlesViewModel = new ViewModelProvider(this).get(MesArticlesViewModel.class);
 
+        binding.setViewModel(mesArticlesViewModel);
+
         mesArticlesViewModel.getUserArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
                 mAdapter.setArticles(newArticles);
-                showArticles();
+                mesArticlesViewModel.showArticles();
             }
         });
 
@@ -63,34 +67,38 @@ public class MesArticlesFragment extends Fragment implements
             public void onChanged(Boolean error) {
                 if(error) {
                     Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
-                    showErrorDownload();
+                    mesArticlesViewModel.showErrorDownload();
                     mesArticlesViewModel.onErrorDownloadArticlesFinished();
                 }
             }
         });
 
-        showLoading();
+        mesArticlesViewModel.getNavigateToArticleDetails().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean navigate) {
+                if(navigate) {
+                    Navigation.findNavController(binding.getRoot()).navigate(ArticlesFragmentDirections
+                            .actionArticlesFragmentToArticleDetailsFragment());
+                    mesArticlesViewModel.onArticleDetailsNavigated();
+                }
+
+            }
+        });
+
+        mesArticlesViewModel.eventLoadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean load) {
+                if(load) {
+                    mesArticlesViewModel.showLoading();
+                    mesArticlesViewModel.onLoadArticlesFinished();
+                }
+            }
+        });
 
         return binding.getRoot();
     }
 
-    public void showArticles() {
-        binding.recyclerviewMesArticles.setVisibility(View.VISIBLE);
-        binding.errorMessage.setVisibility(View.GONE);
-        binding.progressBar.setVisibility(View.GONE);
-    }
 
-    public void showErrorDownload() {
-        binding.errorMessage.setVisibility(View.VISIBLE);
-        binding.recyclerviewMesArticles.setVisibility(View.GONE);
-        binding.progressBar.setVisibility(View.GONE);
-    }
-
-    public void showLoading() {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.recyclerviewMesArticles.setVisibility(View.GONE);
-        binding.errorMessage.setVisibility(View.GONE);
-    }
 
     @Override
     public void onClick(Article article) {

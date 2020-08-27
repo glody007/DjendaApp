@@ -1,23 +1,21 @@
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.djenda.ui.login.LoginViewModel"/>
+
+        <import type="android.view.View"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#0A0717"
         tools:context="com.example.djenda.ui.login.LoginFragment"
         >
-
-        <Button
-            android:id="@+id/btn_connection"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="100dp"
-            android:text="@string/connexion"
-            app:cornerRadius="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_title_connection"
@@ -49,5 +47,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_connection" />
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_text_connexion"/>
+
+        <Button
+            android:id="@+id/btn_connection"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:enabled="@{!viewModel.loading}"
+            android:text="@string/connexion"
+            app:cornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

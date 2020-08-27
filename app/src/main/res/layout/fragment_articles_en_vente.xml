@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.example.djenda.ui.articleenvente.ArticlesEnVenteViewModel" />
 
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,19 +20,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:visibility="@{viewModel.articlesVisible ? View.VISIBLE : View.GONE}"/>
 
         <include
-            layout="@layout/loading_error"
             android:id="@+id/error_message"
+            layout="@layout/loading_error"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            bind:loader="@{viewModel}"
+            android:visibility="@{viewModel.errorVisible ? View.VISIBLE : View.GONE}"/>
 
         <include
             layout="@layout/progress_bar"
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.loadingVisible ? View.VISIBLE : View.GONE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

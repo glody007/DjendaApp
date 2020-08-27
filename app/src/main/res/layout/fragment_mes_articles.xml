@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.example.djenda.ui.mesarticles.MesArticlesViewModel" />
 
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,19 +18,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:visibility="@{viewModel.articlesVisible ? View.VISIBLE : View.GONE}"/>
 
         <include
             layout="@layout/loading_error"
             android:id="@+id/error_message"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.loadingVisible ? View.VISIBLE : View.GONE}"/>
 
         <include
             layout="@layout/progress_bar"
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.errorVisible ? View.VISIBLE : View.GONE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

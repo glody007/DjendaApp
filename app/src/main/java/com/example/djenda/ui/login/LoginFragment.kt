@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.djenda.MainActivity
 import com.example.djenda.R
@@ -16,6 +17,7 @@ import com.example.djenda.databinding.FragmentLoginBinding
 import com.example.djenda.reseau.Repository
 import com.example.djenda.reseau.Verification
 import com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleFragmentDirections
+import com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -32,6 +34,7 @@ class LoginFragment : Fragment() {
 
     var mGoogleSignInClient: GoogleSignInClient? = null
     lateinit var binding : FragmentLoginBinding
+    lateinit var viewModel: LoginViewModel
 
     companion object {
         const private val TAG = "Erreur connection"
@@ -41,37 +44,39 @@ class LoginFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+
+        binding.viewModel = viewModel
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        //val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                //      .requestEmail()
-                //.requestIdToken(getString(R.string.google_client_id))
-                //.build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                     .requestEmail()
+                     .requestIdToken(getString(R.string.google_client_id))
+                     .build()
 
         // Build a GoogleSignInClient with the options specified by gso.
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        //mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         binding.btnConnection.setOnClickListener { signIn(it) }
 
         return binding.root
     }
 
     private fun signIn(view : View) {
-        Navigation.findNavController(binding.root)
-                .navigate(LoginFragmentDirections.actionLoginFragmentToArticlesFragment(false))
-        //val signInIntent = mGoogleSignInClient?.signInIntent
-        //startActivityForResult(signInIntent, RC_SIGN_IN)
+        viewModel.loading.set(true)
+        val signInIntent = mGoogleSignInClient?.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
         if (account != null) {
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
+            Navigation.findNavController(binding.root)
+                    .navigate(LoginFragmentDirections.actionLoginFragmentToArticlesFragment())
         }
+        viewModel.loading.set(false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,8 +119,8 @@ class LoginFragment : Fragment() {
 
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-        //val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        //updateUI(account)
+        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+        updateUI(account)
     }
 
     override fun onResume() {

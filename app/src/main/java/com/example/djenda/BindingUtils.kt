@@ -3,9 +3,11 @@ package com.example.djenda
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import com.example.djenda.reseau.Article
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.textfield.TextInputEditText
@@ -33,6 +35,7 @@ fun SimpleDraweeView.setArticleImage(article : Article?) {
         setImageURI(uri)
     }
 }
+
 
 @BindingAdapter("onTextChange")
 fun EditText.onTextChange(callBack : () -> Unit) {

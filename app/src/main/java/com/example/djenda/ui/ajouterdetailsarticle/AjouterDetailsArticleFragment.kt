@@ -20,11 +20,13 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.djenda.R
 import com.example.djenda.databinding.FragmentAjouterDetailsArticleBinding
 import com.example.djenda.reseau.Repository
+import com.example.djenda.ui.SharedArticleViewModel
 import com.example.djenda.ui.prendrephoto.PrendrePhotoFragmentDirections
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -36,6 +38,7 @@ class AjouterDetailsArticleFragment : Fragment() {
 
     lateinit var binding : FragmentAjouterDetailsArticleBinding
     lateinit var viewModel: AjouterDetailsArticleViewModel
+    lateinit var sharedArticleViewModel : SharedArticleViewModel
     private var mImageName: String? = null
     private var mImageBitmap: Bitmap? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -52,6 +55,7 @@ class AjouterDetailsArticleFragment : Fragment() {
         binding  = DataBindingUtil.inflate(inflater, R.layout.fragment_ajouter_details_article, container, false)
 
         viewModel = ViewModelProviders.of(this).get(AjouterDetailsArticleViewModel::class.java)
+        sharedArticleViewModel  = ViewModelProvider(requireActivity()).get(SharedArticleViewModel::class.java)
 
         setupArticleImageAndImagName()
         getLocation()
@@ -69,6 +73,7 @@ class AjouterDetailsArticleFragment : Fragment() {
 
         viewModel.eventArticlePosted.observe(viewLifecycleOwner, Observer {
             if(it) {
+                sharedArticleViewModel.startEventArticlePosted()
                 navigateToarticlesFragment()
                 viewModel.onArticlePostedFinished()
             }
@@ -90,7 +95,7 @@ class AjouterDetailsArticleFragment : Fragment() {
     private fun navigateToarticlesFragment() {
         Navigation.findNavController(binding.root)
                 .navigate(AjouterDetailsArticleFragmentDirections
-                        .actionAjouterDetailsArticleFragmentToArticlesFragment(true))
+                        .actionAjouterDetailsArticleFragmentToArticlesFragment())
     }
 
     private fun showLoading() {

@@ -1,6 +1,7 @@
 package com.example.djenda.ui.articleenvente;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,11 +57,23 @@ public class ArticlesEnVenteFragment extends Fragment implements
         articlesEnVenteViewModel = new ViewModelProvider(this).get(ArticlesEnVenteViewModel.class);
         sharedArticleViewModel = new ViewModelProvider(requireActivity()).get(SharedArticleViewModel.class);
 
+        binding.setViewModel(articlesEnVenteViewModel);
+
         articlesEnVenteViewModel.getArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
                 mAdapter.setArticles(newArticles);
-                showArticles();
+                articlesEnVenteViewModel.showArticles();
+            }
+        });
+
+        articlesEnVenteViewModel.eventLoadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean load) {
+                if(load) {
+                    articlesEnVenteViewModel.showLoading();
+                    articlesEnVenteViewModel.onLoadArticlesFinished();
+                }
             }
         });
 
@@ -81,33 +94,23 @@ public class ArticlesEnVenteFragment extends Fragment implements
             public void onChanged(Boolean error) {
                 if(error) {
                     Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
-                    showErrorDownload();
+                    articlesEnVenteViewModel.showErrorDownload();
                     articlesEnVenteViewModel.onErrorDownloadArticlesFinished();
                 }
             }
         });
 
-        showLoading();
+        sharedArticleViewModel.getEventArticlePosted().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean articlePosted) {
+                if(articlePosted) {
+                    Snackbar.make(binding.getRoot(), R.string.article_posted_message, Snackbar.LENGTH_SHORT).show();
+                    sharedArticleViewModel.onArticlePostedFinished();
+                }
+            }
+        });
 
         return binding.getRoot();
-    }
-
-    public void showArticles() {
-        binding.recyclerviewArticlesEnVente.setVisibility(View.VISIBLE);
-        binding.errorMessage.setVisibility(View.GONE);
-        binding.progressBar.setVisibility(View.GONE);
-    }
-
-    public void showErrorDownload() {
-        binding.errorMessage.setVisibility(View.VISIBLE);
-        binding.recyclerviewArticlesEnVente.setVisibility(View.GONE);
-        binding.progressBar.setVisibility(View.GONE);
-    }
-
-    public void showLoading() {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.recyclerviewArticlesEnVente.setVisibility(View.GONE);
-        binding.errorMessage.setVisibility(View.GONE);
     }
 
     @Override
