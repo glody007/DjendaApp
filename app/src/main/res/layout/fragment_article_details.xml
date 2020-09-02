@@ -7,11 +7,11 @@
     <data>
         <variable
             name="article"
-            type="com.example.djenda.reseau.Article" />
+            type="com.jjenda.reseau.Article" />
 
         <variable
             name="viewModel"
-            type="com.example.djenda.ui.articledetails.ArticleDetailsViewModel" />
+            type="com.jjenda.ui.articledetails.ArticleDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

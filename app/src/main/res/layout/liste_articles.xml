@@ -7,11 +7,11 @@
     <data>
         <variable
             name="article"
-            type="com.example.djenda.reseau.Article" />
+            type="com.jjenda.reseau.Article" />
 
         <variable
             name="clickListener"
-            type="com.example.djenda.ArticlesAdapter.ArticlesAdapterOnClickHandler" />
+            type="com.jjenda.ArticlesAdapter.ArticlesAdapterOnClickHandler" />
 
     </data>
 

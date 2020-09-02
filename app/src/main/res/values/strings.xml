@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Djenda</string>
+    <string name="app_name">Jjenda</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Tech-Alchimiste</string>
@@ -12,7 +12,7 @@
     <string name="menu_articles">Articles</string>
     <string name="capture">capture</string>
 
-    <string name="google_client_id">1046255643666-91nn9ntu6td2enctrensf3ke80hjrsk5.apps.googleusercontent.com</string>
+    <string name="google_client_id">715568847329-nurs8o68n6quqcdsssk7vgillji0fk3k.apps.googleusercontent.com</string>
     <string name="imagekit_io_public_key">public_hZTJIDqZ+LIgQhi0er6ag1HWRrY=</string>
     <string name="photos_details_article">photos de l\'article</string>
     <string name="nom_details_article">Nom</string>

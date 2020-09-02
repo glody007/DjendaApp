@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.djenda.ui.ajouterdetailsarticle.AjouterDetailsArticleViewModel" />
+            type="com.jjenda.ui.ajouterdetailsarticle.AjouterDetailsArticleViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

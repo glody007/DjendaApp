@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.djenda.ui.articleenvente.ArticlesEnVenteViewModel" />
+            type="com.jjenda.ui.articleenvente.ArticlesEnVenteViewModel" />
 
         <import type="android.view.View"/>
     </data>
