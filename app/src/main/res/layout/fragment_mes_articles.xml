@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.djenda.ui.mesarticles.MesArticlesViewModel" />
+            type="com.jjenda.ui.mesarticles.MesArticlesViewModel" />
 
         <import type="android.view.View"/>
     </data>
@@ -26,14 +26,14 @@
             android:id="@+id/error_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.loadingVisible ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{viewModel.errorVisible ? View.VISIBLE : View.GONE}"/>
 
         <include
             layout="@layout/progress_bar"
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.errorVisible ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{viewModel.loadingVisible ? View.VISIBLE : View.GONE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

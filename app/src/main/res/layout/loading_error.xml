@@ -5,7 +5,7 @@
     <data>
         <variable
             name="loader"
-            type="com.example.djenda.ui.LoadArticles" />
+            type="com.jjenda.ui.LoadArticles" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
