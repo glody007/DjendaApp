@@ -20,6 +20,7 @@ import com.jjenda.databinding.FragmentArticlesEnVenteBinding;
 import com.jjenda.reseau.Article;
 
 import com.jjenda.R;
+import com.jjenda.reseau.Repository;
 import com.jjenda.ui.SharedArticleViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.jjenda.ui.main.MainFragmentDirections;
@@ -104,6 +105,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
             public void onChanged(Boolean articlePosted) {
                 if(articlePosted) {
                     Snackbar.make(binding.getRoot(), R.string.article_posted_message, Snackbar.LENGTH_SHORT).show();
+                    Repository.getInstance().setUserArticlesCache(null);
                     sharedArticleViewModel.onArticlePostedFinished();
                 }
             }

@@ -35,12 +35,14 @@ class ArticleDetailsFragment : Fragment() {
 
         sharedArticleViewModel.selectedArticle.observe(viewLifecycleOwner, Observer {
             binding.article = it
+            articleDetailsViewModel.vendeurId = it.vendeurId
+            articleDetailsViewModel.getUserInfo()
         })
 
         articleDetailsViewModel.eventCall.observe(viewLifecycleOwner, Observer {
             if(it) {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:0123456789")
+                intent.data = Uri.parse("tel:${articleDetailsViewModel.number}")
                 startActivity(intent)
                 articleDetailsViewModel.onCallFinished()
             }
@@ -48,7 +50,7 @@ class ArticleDetailsFragment : Fragment() {
 
         articleDetailsViewModel.eventSendMessage.observe(viewLifecycleOwner, Observer {
             if(it) {
-               val  url = "https://api.whatsapp.com/send?phone=+243997028901"
+               val  url = "https://api.whatsapp.com/send?phone=${articleDetailsViewModel.number}"
                val intent = Intent(Intent.ACTION_VIEW)
                intent.data = Uri.parse(url)
                startActivity(intent)
@@ -59,12 +61,20 @@ class ArticleDetailsFragment : Fragment() {
             }
         })
 
+        articleDetailsViewModel.eventErrorWhenGetUserInfo.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                articleDetailsViewModel.onGetUserInfoFinished()
+            }
+        })
+
+        articleDetailsViewModel
+
         return binding.root
     }
 
     private fun message() {
         val intent = Intent(Intent.ACTION_SEND).apply {
-            data = Uri.parse("smsto:0123456789")  // This ensures only SMS apps respond
+            data = Uri.parse("smsto:${articleDetailsViewModel.number}")  // This ensures only SMS apps respond
             val text: String = "Bonjour"
             putExtra(Intent.EXTRA_TEXT, text)
             setType("text/plain")

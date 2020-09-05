@@ -17,8 +17,8 @@ public interface DjendaService {
     @GET("/users/produits")
     Call<List<Article>> getUserArticles();
 
-    @GET("/user")
-    Call<User> getUser();
+    @GET("/users/{id}")
+    Call<User> getUser(@Path("id") String id);
 
     @GET("/produits")
     Call<List<Article>> getArticles();
@@ -36,6 +36,18 @@ public interface DjendaService {
     Call<Auth> getAuth();
 
     @GET("/verify_oauth2_token/{token}")
-    Call<Verification> verify_oauth2_token(@Path("token") String token);
+    Call<VerifyOAuth> verify_oauth2_token(@Path("token") String token);
+
+    @POST("/send_verification_code")
+    Call<Success> sendVerificationCode(@Body Phone phone);
+
+    @POST("/register_number")
+    Call<Success> registerNumber(@Body Phone phone);
+
+    @POST("/check_verification_code")
+    Call<Verification> checkVerificationCode(@Body Code code);
+
+    @GET("/has_phone_number")
+    Call<HasPhoneNumber> hasPhoneNumber();
 
 }

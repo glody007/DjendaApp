@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jjenda.R
 import com.jjenda.databinding.FragmentMainBinding
+import com.jjenda.reseau.Repository
 import com.jjenda.ui.articleenvente.ArticlesEnVenteFragment
 import com.jjenda.ui.mesarticles.MesArticlesFragment
 
@@ -69,7 +70,7 @@ class MainFragment : Fragment() {
 
         googleSignInClient.signOut()
                 .addOnCompleteListener(requireActivity(), OnCompleteListener<Void?> {
-                    PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply();
+                    Repository.getInstance().clearCache()
                     Navigation.findNavController(binding.root)
                             .navigate(MainFragmentDirections.actionArticlesFragmentToLoginFragment())
                 })

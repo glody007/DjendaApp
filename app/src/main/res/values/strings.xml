@@ -38,5 +38,10 @@
     <string name="click_to_retry_message">APPUYER POUR REESSAYER</string>
     <string name="article_posted_message">Votre article a été posté</string>
     <string name="tv_categorie">Categorie</string>
+    <string name="numero_de_telephone">Numero de telephone</string>
+    <string name="entrer_numero_de_telephone">Entrer votre numero de telephone</string>
+    <string name="envoyer">Envoyer</string>
+    <string name="title_validation_code">Un code de verification a ete envoye a votre numero sinon l\'operation peu prendre jusqu\'a 5 minutes</string>
+    <string name="hint_validation_code">code a 6 chiffres</string>
 
 </resources>

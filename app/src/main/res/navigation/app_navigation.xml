@@ -77,6 +77,9 @@
         <action
             android:id="@+id/action_phoneNumberFragment_to_validationCodeFragment"
             app:destination="@id/validationCodeFragment" />
+        <action
+            android:id="@+id/action_phoneNumberFragment_to_articlesFragment"
+            app:destination="@id/articlesFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationCodeFragment"

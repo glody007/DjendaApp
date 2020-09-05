@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.jjenda.R
@@ -20,7 +21,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
+import com.jjenda.reseau.HasPhoneNumber
+import com.jjenda.reseau.VerifyOAuth
+import com.jjenda.ui.main.MainFragmentDirections
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,7 +65,59 @@ class LoginFragment : Fragment() {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         binding.btnConnection.setOnClickListener { signIn(it) }
 
+        viewModel.eventNavigateToArticlesFragment.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                Navigation.findNavController(binding.root)
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToArticlesFragment())
+                viewModel.onNavigateToArticlesFragmentFinished()
+            }
+        })
+
+        viewModel.eventNavigateToPhoneNumberFragment.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                Navigation.findNavController(binding.root)
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToPhoneNumberFragment())
+                viewModel.onNavigateToPhoneNumberFragmentFinished()
+            }
+        })
+
+        viewModel.eventErrorWhenVerifyIfUserHasPhoneNumber.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                signOut()
+                Snackbar.make(binding.root, R.string.connection_problem_message, Snackbar.LENGTH_LONG).show()
+                viewModel.onErrorWhenVerifyIfUserHasPhoneNumberFinished()
+            }
+        })
+
+        viewModel.eventErrorWhenVerifyOAuthToken.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                signOut()
+                Snackbar.make(binding.root, R.string.connection_problem_message, Snackbar.LENGTH_LONG).show()
+                viewModel.onErrorWhenVerifyOAuthTokenFinished()
+            }
+        })
+
+        viewModel.eventBadIdToken.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                signOut()
+                viewModel.onBadIdTokenFinished()
+            }
+        })
+
         return binding.root
+    }
+
+    private fun signOut() {
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        val googleSignInClient : GoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        googleSignInClient.signOut()
     }
 
     private fun signIn(view : View) {
@@ -69,11 +127,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
-        if (account != null) {
-            Navigation.findNavController(binding.root)
-                    .navigate(LoginFragmentDirections.actionLoginFragmentToArticlesFragment())
-        }
-        viewModel.loading.set(false)
+        if (account != null) { viewModel.verifyIfUserHasPhoneNumber() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,18 +144,9 @@ class LoginFragment : Fragment() {
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
+
             val account = completedTask.getResult(ApiException::class.java)
-
-            // Signed in successfully, show authenticated UI.
-            Repository.getInstance().verify_oauth_token(account!!.idToken, object : Callback<Verification> {
-                override fun onResponse(call: Call<Verification>, response: Response<Verification>) {
-                    updateUI(account)
-                }
-
-                override fun onFailure(call: Call<Verification>, t: Throwable) {
-                    // Log error here since request failed
-                }
-            })
+            viewModel.verify_oauth_token(account)
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.

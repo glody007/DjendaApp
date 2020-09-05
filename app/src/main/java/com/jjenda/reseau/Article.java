@@ -25,8 +25,13 @@ public class Article {
     @SerializedName("longitude")
     String mLongitude;
 
+    @SerializedName("vendeur_id")
+    String mVendeurId;
+
     @SerializedName("prix")
     int mPrix;
+
+
 
     public Article(String nom, String categorie,
                 String description, String urlPhoto,
@@ -54,6 +59,8 @@ public class Article {
     }
 
     public String getNom() { return this.mNom; }
+
+    public String getVendeurId() { return this.mVendeurId; }
 
     public String getCategorie() { return this.mCategorie; }
 
