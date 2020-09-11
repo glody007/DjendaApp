@@ -14,23 +14,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.jjenda.R
 import com.jjenda.databinding.FragmentLoginBinding
-import com.jjenda.reseau.Repository
-import com.jjenda.reseau.Verification
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import com.jjenda.reseau.HasPhoneNumber
-import com.jjenda.reseau.VerifyOAuth
-import com.jjenda.ui.main.MainFragmentDirections
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Boolean
+import com.jjenda.reseau.Repository
+import com.jjenda.utils.signOut
 
 class LoginFragment : Fragment() {
 
@@ -108,16 +100,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun signOut() {
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        val googleSignInClient : GoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-
-        googleSignInClient.signOut()
+        signOut(requireActivity())
+        viewModel.loading.set(false)
     }
 
     private fun signIn(view : View) {
@@ -127,7 +111,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
-        if (account != null) { viewModel.verifyIfUserHasPhoneNumber() }
+        if (account != null) {
+            viewModel.verifyIfUserHasPhoneNumber()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -159,10 +145,16 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        updateUI(account)
+        if(Repository.getInstance().navigatedToPhoneNumber) {
+            signOut()
+            Repository.getInstance().navigatedToPhoneNumber = false
+        }
+        else {
+            // Check for existing Google Sign In account, if the user is already signed in
+            // the GoogleSignInAccount will be non-null.
+            val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+            updateUI(account)
+        }
     }
 
     override fun onResume() {

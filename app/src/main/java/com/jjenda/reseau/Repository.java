@@ -35,6 +35,7 @@ public class Repository {
     LiveData<List<Article>> articlesCache = null, mesArticlesCache = null;
     MutableLiveData<String> sms = new MutableLiveData<>();
     GoogleSignInAccount account = null;
+    Boolean navigatedToPhoneNumber = false;
 
     final static String PREF_USERID = "PREF_USERID";
 
@@ -85,6 +86,8 @@ public class Repository {
         this.imageKitService = imageKit.create(ImageKitService.class);
     }
 
+
+
     public GoogleSignInAccount getAccount() { return account; }
 
     public void setAccount(GoogleSignInAccount account) { this.account = account; }
@@ -96,6 +99,12 @@ public class Repository {
             memes.commit();
         }
     }
+
+    public void setNavigatedToPhoneNumber(Boolean navigatedToPhoneNumber) {
+        this.navigatedToPhoneNumber = navigatedToPhoneNumber;
+    }
+
+    public Boolean getNavigatedToPhoneNumber() { return navigatedToPhoneNumber; }
 
     public String getPrefUserid() {
         return PreferenceManager.getDefaultSharedPreferences(appContext).getString(PREF_USERID, "");

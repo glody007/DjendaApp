@@ -1,18 +1,24 @@
 package com.jjenda.ui.phonenumber
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import com.google.android.gms.tasks.OnCompleteListener
 import com.jjenda.R
 import com.jjenda.databinding.FragmentPhoneNumberBinding
+import com.jjenda.reseau.Repository
+import com.jjenda.ui.main.MainFragmentDirections
+import com.jjenda.utils.signOut
 
-class PhoneNumberFragment : Fragment() {
+class PhoneNumberFragment: Fragment() {
 
     lateinit var binding : FragmentPhoneNumberBinding
     lateinit var viewModel : PhoneNumberViewModel
@@ -73,7 +79,7 @@ class PhoneNumberFragment : Fragment() {
             }
         })
 
-        viewModel.eventNavigateToLogin
+        Repository.getInstance().navigatedToPhoneNumber = true
 
         return binding.root
     }

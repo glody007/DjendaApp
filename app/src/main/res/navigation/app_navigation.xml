@@ -79,7 +79,9 @@
             app:destination="@id/validationCodeFragment" />
         <action
             android:id="@+id/action_phoneNumberFragment_to_articlesFragment"
-            app:destination="@id/articlesFragment" />
+            app:destination="@id/articlesFragment"
+            app:popUpTo="@id/app_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/validationCodeFragment"

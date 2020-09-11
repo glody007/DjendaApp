@@ -1,7 +1,6 @@
 package com.jjenda.ui.main
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -9,9 +8,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,7 +16,7 @@ import com.jjenda.databinding.FragmentMainBinding
 import com.jjenda.reseau.Repository
 import com.jjenda.ui.articleenvente.ArticlesEnVenteFragment
 import com.jjenda.ui.mesarticles.MesArticlesFragment
-
+import com.jjenda.utils.signOut
 
 class MainFragment : Fragment() {
 
@@ -40,6 +36,7 @@ class MainFragment : Fragment() {
         setHasOptionsMenu(true)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        Repository.getInstance().navigatedToPhoneNumber = false
 
         return binding.root
     }
@@ -59,17 +56,7 @@ class MainFragment : Fragment() {
     }
 
     private fun signOut() {
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        val googleSignInClient : GoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-
-        googleSignInClient.signOut()
-                .addOnCompleteListener(requireActivity(), OnCompleteListener<Void?> {
+      signOut(requireActivity()).addOnCompleteListener(requireActivity(), OnCompleteListener<Void?> {
                     Repository.getInstance().clearCache()
                     Navigation.findNavController(binding.root)
                             .navigate(MainFragmentDirections.actionArticlesFragmentToLoginFragment())
