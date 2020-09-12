@@ -50,8 +50,7 @@ class AjouterDetailsArticleViewModel : ViewModel() {
     fun onTextChanged() { _btnEnabled.value = enabled() }
 
     fun enabled() : Boolean {
-        return (article.nom.isNotBlank() and
-                article.description.isNotBlank() and
+        return (article.description.isNotBlank() and
                 article.categorie.isNotBlank() and
                 articlePrixString.isNotBlank())
     }

@@ -107,7 +107,6 @@ class AjouterDetailsArticleFragment : Fragment() {
     }
 
     private fun formEnabled(enabled : Boolean) {
-        binding.ilNomDetailsArticle.isEnabled = enabled
         binding.ilCategorieDetailsArticle.isEnabled = enabled
         binding.ilDescriptionDetailsArticle.isEnabled = enabled
         binding.ilPrixDetailsArticle.isEnabled = enabled

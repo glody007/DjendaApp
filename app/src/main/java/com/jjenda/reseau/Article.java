@@ -3,10 +3,6 @@ package com.jjenda.reseau;
 import com.google.gson.annotations.SerializedName;
 
 public class Article {
-
-    @SerializedName("nom")
-    String mNom;
-
     @SerializedName("categorie")
     String mCategorie;
 
@@ -33,11 +29,10 @@ public class Article {
 
 
 
-    public Article(String nom, String categorie,
+    public Article(String categorie,
                 String description, String urlPhoto,
                 String urlThumbnailPhoto, String latitude,
                 String longitude, int prix) {
-        this.mNom = nom;
         this.mCategorie = categorie;
         this.mDescription = description;
         this.mUrlPhoto = urlPhoto;
@@ -48,7 +43,6 @@ public class Article {
     }
 
     public Article() {
-        this.mNom = "";
         this.mCategorie = "";
         this.mDescription = "";
         this.mUrlPhoto = "";
@@ -57,8 +51,6 @@ public class Article {
         this.mLatitude = "0";
         this.mLongitude = "0";
     }
-
-    public String getNom() { return this.mNom; }
 
     public String getVendeurId() { return this.mVendeurId; }
 
@@ -75,8 +67,6 @@ public class Article {
     public String getLongitude() { return this.mLongitude; }
 
     public String getLatitude() { return this.mLatitude; }
-
-    public void setNom(String nom) { mNom = nom; }
 
     public void setCategorie(String categorie) { mCategorie = categorie; }
 
