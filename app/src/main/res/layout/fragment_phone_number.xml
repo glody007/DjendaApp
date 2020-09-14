@@ -22,7 +22,7 @@
             android:id="@+id/il_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/large_spacing"
+            android:layout_margin="@dimen/spacing_large"
             android:hint="@string/entrer_numero_de_telephone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

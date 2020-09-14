@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import com.jjenda.reseau.Article
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.textfield.TextInputEditText
+import com.jjenda.ui.avertissementpostrestant.PostRestantViewModel
 
 @BindingAdapter("articlePrix")
 fun TextView.setArticlePrixString(article : Article?) {
@@ -16,6 +17,11 @@ fun TextView.setArticlePrixString(article : Article?) {
         val prix : Int = article.prix
         text = "$prix$"
     }
+}
+
+@BindingAdapter("alertPostsRestant")
+fun TextView.setAlertPostRestant(nombrePostRestant : Int) {
+    text = "Il vous reste $nombrePostRestant article(s) que vous pouvez poster gratuitement ce mois"
 }
 
 @BindingAdapter("articleThumbnailImage")

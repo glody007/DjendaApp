@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.jjenda.ui.payment.PaymentViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingVertical="@dimen/spacing_normal">
+
+        <Button
+            android:id="@+id/btn_airtel_money"
+            style="@style/Widget.MaterialComponents.Button.Large"
+            android:text="@string/airtel_money"
+            android:onClick="@{() -> viewModel.listener.onDialogAirtelMoneyClick()}"/>
+
+        <Button
+            android:id="@+id/btn_m_pesa"
+            style="@style/Widget.MaterialComponents.Button.Large"
+            android:text="@string/m_pesa"
+            android:onClick="@{() -> viewModel.listener.onDialogMPesaClick()}"/>
+
+        <Button
+            android:id="@+id/btn_orange_money"
+            style="@style/Widget.MaterialComponents.Button.Large"
+            android:text="@string/orange_money"
+            android:onClick="@{() -> viewModel.listener.onDialogOrangeMoneyClick()}"/>
+
+    </LinearLayout>
+</layout>

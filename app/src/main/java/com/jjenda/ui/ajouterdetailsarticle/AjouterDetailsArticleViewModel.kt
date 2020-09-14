@@ -15,7 +15,7 @@ class AjouterDetailsArticleViewModel : ViewModel() {
 
 
     var article : Article
-    private var image : Bitmap?
+    private lateinit var image : Bitmap
     var repository : Repository = Repository.getInstance()
     lateinit var urlImage : String
     lateinit var fileName : String
@@ -26,6 +26,7 @@ class AjouterDetailsArticleViewModel : ViewModel() {
             if(field.isBlank()) article.prix = 0
             else article.prix = value.toInt()
         }
+    var nombrePostsRestant = 0
 
     private val _btnEnabled = MutableLiveData<Boolean>()
     val btnEnabled : LiveData<Boolean>
@@ -39,11 +40,18 @@ class AjouterDetailsArticleViewModel : ViewModel() {
     val eventErrorWhenPostingArticle : LiveData<Boolean>
         get() = _eventErrorWhenPostingArticle
 
+    private val _eventShowPostRestantDialog = MutableLiveData<Boolean>()
+    val eventshowPostRestantDialog : LiveData<Boolean>
+        get() = _eventShowPostRestantDialog
+
     init {
         _btnEnabled.value = false
         _eventArticlePosted.value = false
         _eventErrorWhenPostingArticle.value = false
-        image = BitmapFactory.decodeByteArray(repository.photArticle, 0, repository.photArticle.size)
+        _eventShowPostRestantDialog.value = false
+        repository.photArticle?.let {
+            image = BitmapFactory.decodeByteArray(it, 0, it.size)
+        }
         article = Article()
     }
 
@@ -58,6 +66,12 @@ class AjouterDetailsArticleViewModel : ViewModel() {
     fun setLocation(longitude : String, latitude : String) {
         article.longitude = longitude
         article.latitude = latitude
+    }
+
+    fun preparePostArticle() {
+        nombrePostsRestant = 5
+        if(nombrePostsRestant <= MINIMUM_FOR_ALERT) { _eventShowPostRestantDialog.value = true }
+        else { postArticle() }
     }
 
     fun postArticle() {
@@ -115,4 +129,11 @@ class AjouterDetailsArticleViewModel : ViewModel() {
         _eventArticlePosted.value = false
     }
 
+    fun onShowPostRestantDialogFinished() {
+        _eventShowPostRestantDialog.value = false
+    }
+
+    companion object {
+        val MINIMUM_FOR_ALERT = 10
+    }
 }

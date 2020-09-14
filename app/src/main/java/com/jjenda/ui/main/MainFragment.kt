@@ -36,7 +36,6 @@ class MainFragment : Fragment() {
         setHasOptionsMenu(true)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        Repository.getInstance().navigatedToPhoneNumber = false
 
         return binding.root
     }

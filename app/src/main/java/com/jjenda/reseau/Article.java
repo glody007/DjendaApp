@@ -9,6 +9,9 @@ public class Article {
     @SerializedName("description")
     String mDescription;
 
+    @SerializedName("nom")
+    String mNom;
+
     @SerializedName("url_photo")
     String mUrlPhoto;
 
@@ -44,6 +47,7 @@ public class Article {
 
     public Article() {
         this.mCategorie = "";
+        this.mNom = "none";
         this.mDescription = "";
         this.mUrlPhoto = "";
         this.mPrix = 0;

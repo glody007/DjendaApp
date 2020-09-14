@@ -49,6 +49,7 @@ class PhoneNumberFragment: Fragment() {
 
         viewModel.eventNavigateToArticles.observe(viewLifecycleOwner, Observer {
             if(it) {
+                Repository.getInstance().navigatedToPhoneNumber = false
                 Navigation.findNavController(binding.root)
                         .navigate(PhoneNumberFragmentDirections
                                 .actionPhoneNumberFragmentToArticlesFragment())

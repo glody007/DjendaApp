@@ -29,15 +29,14 @@
                 android:gravity="center"
                 android:text="@string/connection_problem_message" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@string/click_to_retry_message"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/primaryColor"
                 android:onClick="@{() -> loader.loadArticles() }"/>
 
         </LinearLayout>

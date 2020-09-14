@@ -8,4 +8,5 @@
     <color name="primaryLightColor">#f9683a</color>
     <color name="primaryDarkColor">#870000</color>
     <color name="primaryTextColor">#ffffff</color>
+    <color name="transparent">#00000000</color>
 </resources>

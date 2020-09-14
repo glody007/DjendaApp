@@ -15,9 +15,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -30,9 +32,11 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.jjenda.ui.avertissementpostrestant.PostRestantDialog
+import com.jjenda.ui.payment.PaymentDialog
 
 
-class AjouterDetailsArticleFragment : Fragment() {
+class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantDialogListener {
 
     lateinit var binding : FragmentAjouterDetailsArticleBinding
     lateinit var viewModel: AjouterDetailsArticleViewModel
@@ -41,6 +45,7 @@ class AjouterDetailsArticleFragment : Fragment() {
     private var mImageBitmap: Bitmap? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest : LocationRequest
+    private lateinit var dialog: DialogFragment
 
     companion object {
         const val LOCATION_SETTING_REQUEST = 999
@@ -61,8 +66,7 @@ class AjouterDetailsArticleFragment : Fragment() {
         binding.viewModel = viewModel
         binding.btnPosterDetailsArticle.setOnClickListener{
             viewModel.publicKey = getString(R.string.imagekit_io_public_key)
-            viewModel.postArticle()
-            showLoading()
+            viewModel.preparePostArticle()
         }
 
         viewModel.btnEnabled.observe(viewLifecycleOwner, Observer {
@@ -85,6 +89,18 @@ class AjouterDetailsArticleFragment : Fragment() {
             }
         })
 
+        viewModel.eventshowPostRestantDialog.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                showForm()
+                fragmentManager?.let {
+                    dialog =  PostRestantDialog(viewModel.nombrePostsRestant)
+                    dialog.onAttachFragment(this)
+                    dialog.show(it, "alert")
+                }
+                viewModel.onShowPostRestantDialogFinished()
+            }
+        })
+
         showForm()
 
         return binding.root
@@ -94,6 +110,12 @@ class AjouterDetailsArticleFragment : Fragment() {
         Navigation.findNavController(binding.root)
                 .navigate(AjouterDetailsArticleFragmentDirections
                         .actionAjouterDetailsArticleFragmentToArticlesFragment())
+    }
+
+    private fun navigateToPlansFragment() {
+        Navigation.findNavController(binding.root)
+                .navigate(AjouterDetailsArticleFragmentDirections
+                        .actionAjouterDetailsArticleFragmentToPlansFragment())
     }
 
     private fun showLoading() {
@@ -111,6 +133,17 @@ class AjouterDetailsArticleFragment : Fragment() {
         binding.ilDescriptionDetailsArticle.isEnabled = enabled
         binding.ilPrixDetailsArticle.isEnabled = enabled
         binding.btnPosterDetailsArticle.isEnabled = enabled
+    }
+
+    override fun onDialogPostClick() {
+        dialog.dismiss()
+        showLoading()
+        viewModel.postArticle()
+    }
+
+    override fun onDialogTarifClick() {
+        dialog.dismiss()
+        navigateToPlansFragment()
     }
 
     private fun setupArticleImageAndImagName() {

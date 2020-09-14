@@ -43,5 +43,12 @@
     <string name="envoyer">Envoyer</string>
     <string name="title_validation_code">Un code de verification a ete envoye a votre numero sinon l\'operation peu prendre jusqu\'a 5 minutes</string>
     <string name="hint_validation_code">code a 6 chiffres</string>
+    <string name="airtel_money">Airtel money</string>
+    <string name="m_pesa">M-pesa</string>
+    <string name="orange_money">Orange money</string>
+    <string name="payer">Payer</string>
+    <string name="poster">Poster</string>
+    <string name="version_payante">Version payante</string>
+    <string name="voir_les_tarifs">Voir les tarifs</string>
 
 </resources>

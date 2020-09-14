@@ -63,6 +63,9 @@
             app:destination="@id/articlesFragment"
             app:popUpTo="@id/app_navigation"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_ajouterDetailsArticleFragment_to_plansFragment"
+            app:destination="@id/plansFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleDetailsFragment"
@@ -93,5 +96,15 @@
             app:destination="@id/articlesFragment"
             app:popUpTo="@id/app_navigation"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/plansFragment"
+        android:name="com.jjenda.ui.plans.PlansFragment"
+        android:label="Forfaits"
+        tools:layout="@layout/fragment_plans" >
+        <action
+            android:id="@+id/action_plansFragment_to_ajouterDetailsArticleFragment"
+            app:destination="@id/ajouterDetailsArticleFragment"
+            app:popUpTo="@id/prendrePhotoFragment" />
     </fragment>
 </navigation>
