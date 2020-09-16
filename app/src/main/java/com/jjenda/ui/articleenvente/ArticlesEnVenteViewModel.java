@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.jjenda.reseau.Article;
+import com.jjenda.reseau.Location;
 import com.jjenda.reseau.Repository;
 import com.jjenda.ui.LoadArticles;
 
@@ -21,6 +22,7 @@ import retrofit2.Response;
 public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadArticles {
 
     private MutableLiveData<List<Article>> articles;
+    private MutableLiveData<Location> location;
     private MutableLiveData<Boolean> navigateToArticleDetails;
     private MutableLiveData<Boolean> eventErrorDownloadArticles;
     private MutableLiveData<Boolean> eventLoadArticles;
@@ -33,6 +35,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
         super(application);
         repository = Repository.getInstance();
         articles = new MutableLiveData<>();
+        location = new MutableLiveData<>();
         navigateToArticleDetails = new MutableLiveData<>(false);
         eventErrorDownloadArticles = new MutableLiveData<>(false);
         eventLoadArticles = new MutableLiveData<>(false);
@@ -40,14 +43,29 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
     }
 
     public LiveData<List<Article>> getArticles() {
-        if(repository.getArticlesCache() != null) { return repository.getArticlesCache(); }
+        if(repository.getArticlesCache() != null) {
+            return repository.getArticlesCache();
+        }
         loadArticles();
         return articles;
+    }
+
+    public LiveData<Location> getLocation() {
+        if(repository.getLocationCache() != null) { return repository.getLocationCache(); }
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location.setValue(location);
+        repository.setLocationCache(this.location);
     }
 
     @Override
     public void loadArticles() {
         eventLoadArticles.setValue(true);
+    }
+
+    protected void loadArticlesFromRepository() {
         repository.getArticles(new Callback<List<Article>>() {
             @Override
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {

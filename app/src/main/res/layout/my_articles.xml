@@ -11,11 +11,8 @@
 
         <variable
             name="clickListener"
-            type="com.jjenda.ArticlesAdapter.ArticlesAdapterOnClickHandler" />
+            type="com.jjenda.MyArticlesAdapter.MyArticlesAdapterOnClickHandler" />
 
-        <variable
-            name="myLocation"
-            type="com.jjenda.reseau.Location" />
 
     </data>
 
@@ -62,16 +59,6 @@
             app:layout_constraintTop_toBottomOf="@+id/article_categorie"
             tools:text="@tools:sample/lorem" />
 
-        <TextView
-            android:id="@+id/article_temps_parcour_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:article="@{article}"
-            app:myLocation="@{myLocation}"
-            android:textAppearance="?attr/textAppearanceSubtitle2"
-            app:layout_constraintStart_toStartOf="@+id/article_categorie"
-            app:layout_constraintTop_toBottomOf="@+id/article_description"
-            tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/article_temps_depuis_creation"
@@ -81,7 +68,7 @@
             android:textAppearance="?attr/textAppearanceSubtitle2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/article_categorie"
-            app:layout_constraintTop_toBottomOf="@+id/article_temps_parcour_distance"
+            app:layout_constraintTop_toBottomOf="@+id/article_description"
             tools:text="@tools:sample/lorem" />
 
         <androidx.cardview.widget.CardView
@@ -101,8 +88,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 app:articleThumbnailImage="@{article}"
-                fresco:progressBarImage="@drawable/progress_bar"
-                fresco:progressBarAutoRotateInterval="1000"/>
+                fresco:placeholderImage="@drawable/ic_launcher_background" />
 
         </androidx.cardview.widget.CardView>
 

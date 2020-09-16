@@ -39,6 +39,10 @@ class ArticleDetailsFragment : Fragment() {
             articleDetailsViewModel.getUserInfo()
         })
 
+        sharedArticleViewModel.myLocation.observe(viewLifecycleOwner, Observer {
+            binding.myLocation = it
+        })
+
         articleDetailsViewModel.eventCall.observe(viewLifecycleOwner, Observer {
             if(it) {
                 val intent = Intent(Intent.ACTION_DIAL)

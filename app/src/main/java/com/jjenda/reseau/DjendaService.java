@@ -17,6 +17,9 @@ public interface DjendaService {
     @GET("/users/produits")
     Call<List<Article>> getUserArticles();
 
+    @GET("/users/posts_restants")
+    Call<PostsRestants> getUserPostsRestants();
+
     @GET("/users/{id}")
     Call<User> getUser(@Path("id") String id);
 

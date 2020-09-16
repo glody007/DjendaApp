@@ -15,6 +15,9 @@ public class Article {
     @SerializedName("url_photo")
     String mUrlPhoto;
 
+    @SerializedName("created_at")
+    String mCreatedAt;
+
     @SerializedName("url_thumbnail_photo")
     String mUrlThumbnailPhoto;
 
@@ -23,6 +26,9 @@ public class Article {
 
     @SerializedName("longitude")
     String mLongitude;
+
+    @SerializedName("location")
+    Double[] mLocation;
 
     @SerializedName("vendeur_id")
     String mVendeurId;
@@ -62,11 +68,15 @@ public class Article {
 
     public String getDescription() { return this.mDescription; }
 
+    public String getCreatedAt() { return this.mCreatedAt; }
+
     public String getUrlPhoto() { return this.mUrlPhoto; }
 
     public int getPrix() { return this.mPrix; }
 
     public String getUrlThumbnailPhoto() { return this.mUrlThumbnailPhoto; }
+
+    public Double[] getLocation() { return this.mLocation; }
 
     public String getLongitude() { return this.mLongitude; }
 

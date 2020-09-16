@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jjenda.databinding.ListeArticlesBinding;
 import com.jjenda.reseau.Article;
+import com.jjenda.reseau.Location;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticlesEnVenteViewHolder> {
     private List<Article> articles;
+    private Location myLocation;
 
     final private ArticlesAdapterOnClickHandler mClickHandler;
 
@@ -29,8 +31,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         //articles.add(new  Article("nom", "categorie", "description", "urlPhoto", "urlThumbnailPhoto", "latitude", "longitude", 200));
     }
 
-    public void setArticles(List<Article> articles) {
+    public void setArticlesAndMyLocation(List<Article> articles, Location myLocation) {
         this.articles = articles;
+        this.myLocation = myLocation;
         notifyDataSetChanged();
     }
 
@@ -44,7 +47,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     public void onBindViewHolder(@NonNull ArticlesEnVenteViewHolder articlesEnVenteViewHolderholder, int position) {
         Article article = articles.get(position);
 
-        articlesEnVenteViewHolderholder.bind(article, mClickHandler);
+        articlesEnVenteViewHolderholder.bind(article, myLocation, mClickHandler);
     }
 
     @Override
@@ -61,9 +64,10 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
             mBinding = binding;
         }
 
-        private void bind(Article article, ArticlesAdapterOnClickHandler clickHandler) {
+        private void bind(Article article, Location myLocation, ArticlesAdapterOnClickHandler clickHandler) {
             mBinding.setArticle(article);
             mBinding.setClickListener(clickHandler);
+            mBinding.setMyLocation(myLocation);
         }
 
         @NotNull

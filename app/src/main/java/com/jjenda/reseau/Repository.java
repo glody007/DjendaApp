@@ -33,6 +33,7 @@ public class Repository {
     DjendaService apiService;
     ImageKitService  imageKitService;
     LiveData<List<Article>> articlesCache = null, mesArticlesCache = null;
+    LiveData<Location> locationCache = null;
     MutableLiveData<String> sms = new MutableLiveData<>();
     GoogleSignInAccount account = null;
     Boolean navigatedToPhoneNumber = false;
@@ -54,7 +55,6 @@ public class Repository {
 
         DjendaApplication.Companion.getAppComponent().inject(this);
 
-        //final String URL_DJENDA = "http://10.0.2.2:5000";
         final String URL_IMAGEKITIO_API = "https://upload.imagekit.io/api/v1/";
         final String URL_DJENDA  = "https://djendardc.herokuapp.com";
 
@@ -125,6 +125,11 @@ public class Repository {
         call.enqueue(callback);
     }
 
+    public void getPostsRestants(Callback<PostsRestants> callback) {
+        Call<PostsRestants> call = this.apiService.getUserPostsRestants();
+        call.enqueue(callback);
+    }
+
     public void getUserArticles(Callback<List<Article>> callback) {
         String id = "1";
         Call<List<Article>> call = this.apiService.getUserArticles();
@@ -140,13 +145,18 @@ public class Repository {
 
     public LiveData<List<Article>> getMesArticlesCache() { return  mesArticlesCache; }
 
+    public LiveData<Location> getLocationCache() { return locationCache; }
+
     public void setUserArticlesCache(LiveData<List<Article>> articles){ mesArticlesCache = articles; }
 
     public void setArticlesCache(LiveData<List<Article>> articles){ articlesCache = articles; }
 
+    public void setLocationCache(LiveData<Location> location) { locationCache = location; }
+
     public void clearCache() {
         mesArticlesCache = null;
         articlesCache = null;
+        locationCache = null;
         PreferenceManager.getDefaultSharedPreferences(appContext).edit().clear().apply();
     }
 

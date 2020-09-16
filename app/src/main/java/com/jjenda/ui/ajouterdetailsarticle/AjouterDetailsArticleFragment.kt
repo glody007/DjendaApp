@@ -44,6 +44,7 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
     private var mImageName: String? = null
     private var mImageBitmap: Bitmap? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var callback: LocationCallback
     private lateinit var locationRequest : LocationRequest
     private lateinit var dialog: DialogFragment
 
@@ -52,7 +53,6 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
         const val LOCATION_PERMISSION_REQUEST = 200
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding  = DataBindingUtil.inflate(inflater, R.layout.fragment_ajouter_details_article, container, false)
@@ -61,10 +61,10 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
         sharedArticleViewModel  = ViewModelProvider(requireActivity()).get(SharedArticleViewModel::class.java)
 
         setupArticleImageAndImagName()
-        getLocation()
 
         binding.viewModel = viewModel
         binding.btnPosterDetailsArticle.setOnClickListener{
+            showLoading()
             viewModel.publicKey = getString(R.string.imagekit_io_public_key)
             viewModel.preparePostArticle()
         }
@@ -204,10 +204,11 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
                 ) == PackageManager.PERMISSION_GRANTED) {
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+            callback = locationCallback()
 
             fusedLocationClient.requestLocationUpdates(
                     locationRequest,
-                    locationCallback(),
+                    callback,
                     Looper.getMainLooper()
             )
         } else {
@@ -225,6 +226,7 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
             }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -267,5 +269,15 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onStart() {
+        super.onStart()
+        getLocation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        fusedLocationClient.removeLocationUpdates(callback)
+    }
 
 }

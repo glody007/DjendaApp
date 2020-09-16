@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jjenda.ArticlesAdapter;
+import com.jjenda.MyArticlesAdapter;
 import com.jjenda.databinding.FragmentMesArticlesBinding;
 import com.jjenda.reseau.Article;
 import com.jjenda.R;
@@ -27,10 +28,10 @@ import java.util.List;
 
 
 public class MesArticlesFragment extends Fragment implements
-        ArticlesAdapter.ArticlesAdapterOnClickHandler {
+        MyArticlesAdapter.MyArticlesAdapterOnClickHandler {
 
     private RecyclerView reclyclerView;
-    private ArticlesAdapter mAdapter;
+    private MyArticlesAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MesArticlesViewModel mesArticlesViewModel;
     private FragmentMesArticlesBinding binding;
@@ -47,7 +48,7 @@ public class MesArticlesFragment extends Fragment implements
         layoutManager = new LinearLayoutManager(getActivity());
         reclyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ArticlesAdapter(this);
+        mAdapter = new MyArticlesAdapter(this);
         reclyclerView.setAdapter(mAdapter);
 
         mesArticlesViewModel = new ViewModelProvider(this).get(MesArticlesViewModel.class);

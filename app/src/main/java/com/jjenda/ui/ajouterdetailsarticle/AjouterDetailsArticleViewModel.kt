@@ -69,9 +69,19 @@ class AjouterDetailsArticleViewModel : ViewModel() {
     }
 
     fun preparePostArticle() {
-        nombrePostsRestant = 5
-        if(nombrePostsRestant <= MINIMUM_FOR_ALERT) { _eventShowPostRestantDialog.value = true }
-        else { postArticle() }
+        repository.getPostsRestants(object : Callback<PostsRestants> {
+            override fun onResponse(call: Call<PostsRestants>, response: Response<PostsRestants>) {
+                response.body()?.apply {
+                    nombrePostsRestant = this.postsRestants
+                    if(nombrePostsRestant <= MINIMUM_FOR_ALERT) { _eventShowPostRestantDialog.value = true }
+                    else { postArticle() }
+                }
+            }
+
+            override fun onFailure(call: Call<PostsRestants>, t: Throwable) {
+                _eventErrorWhenPostingArticle.value = true
+            }
+        })
     }
 
     fun postArticle() {
