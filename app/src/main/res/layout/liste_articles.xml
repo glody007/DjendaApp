@@ -22,6 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bottom_line"
         android:onClick="@{() -> clickListener.onClick(article) }">
 
 
@@ -29,14 +30,13 @@
             android:id="@+id/article_categorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginStart="@dimen/spacing_small"
             android:text="@={article.categorie}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
-            app:layout_constraintBottom_toTopOf="@+id/article_description"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/container_article_image"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:layout_editor_absoluteX="214dp"
             tools:text="@tools:sample/lorem" />
 
         <TextView
@@ -44,50 +44,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
-            android:textColor="@android:color/white"
+            android:textColor="@color/secondaryTextColor"
             android:background="@drawable/rounded_corner"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
             app:articlePrix="@{article}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/article_categorie"
+            app:layout_constraintTop_toTopOf="@+id/article_temps_parcour_distance"
             tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/article_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:text="@={article.description}"
             android:textAppearance="?attr/textAppearanceSubtitle2"
             app:layout_constraintStart_toStartOf="@+id/article_categorie"
-            app:layout_constraintTop_toBottomOf="@+id/article_categorie"
+            app:layout_constraintTop_toBottomOf="@+id/article_temps_parcour_distance"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/article_temps_parcour_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
             app:article="@{article}"
             app:myLocation="@{myLocation}"
             android:textAppearance="?attr/textAppearanceSubtitle2"
             app:layout_constraintStart_toStartOf="@+id/article_categorie"
-            app:layout_constraintTop_toBottomOf="@+id/article_description"
+            app:layout_constraintTop_toBottomOf="@+id/article_categorie"
             tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/article_temps_depuis_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/spacing_small"
             app:elapsedTimeFromPost="@{article}"
             android:textAppearance="?attr/textAppearanceSubtitle2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/article_categorie"
-            app:layout_constraintTop_toBottomOf="@+id/article_temps_parcour_distance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/article_categorie"
             tools:text="@tools:sample/lorem" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/container_article_image"
             android:layout_height="wrap_content"
             android:layout_width="60dp"
+            android:layout_marginBottom="@dimen/spacing_small"
             app:cardCornerRadius="30dp"
             app:cardBackgroundColor="@color/primaryLightColor"
             android:layout_marginTop="@dimen/spacing_small"

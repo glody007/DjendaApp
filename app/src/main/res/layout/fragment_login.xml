@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0A0717"
+        android:background="@color/primaryDarkColor"
         tools:context="com.jjenda.ui.login.LoginFragment"
         >
 
@@ -38,12 +38,12 @@
             android:layout_marginLeft="50dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="50dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/roboto_thin"
             android:gravity="center"
             android:shadowColor="#FFFFFF"
             android:text="@string/commentaires_connection"
-            android:textColor="@android:color/white"
             android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_connection" />
@@ -61,13 +61,12 @@
 
         <Button
             android:id="@+id/btn_connection"
-            style="@style/Widget.MaterialComponents.Button.Large"
+            style="@style/Button.Large"
             android:enabled="@{!viewModel.loading}"
             android:text="@string/connexion"
             app:cornerRadius="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 

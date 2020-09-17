@@ -4,19 +4,36 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/primaryLightColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+
+        <item name="textAppearanceSubtitle1">@style/CustomSubtitle1</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    
+    <style name="CustomSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Widget.MaterialComponents.Button.Large" parent="Widget.AppCompat.Button">
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/secondaryColor</item>
+    </style>
+
+    <style name="Button.Large" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">70dp</item>
     </style>

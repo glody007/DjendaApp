@@ -52,7 +52,7 @@
 
         <Button
             android:id="@+id/btn_tarifs"
-            style="@style/Widget.MaterialComponents.Button.Large"
+            style="@style/Button.Large"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:enabled="@{true}"
             android:text="@string/voir_les_tarifs"

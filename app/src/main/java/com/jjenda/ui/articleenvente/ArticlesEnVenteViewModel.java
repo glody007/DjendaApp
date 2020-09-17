@@ -22,10 +22,10 @@ import retrofit2.Response;
 public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadArticles {
 
     private MutableLiveData<List<Article>> articles;
-    private MutableLiveData<Location> location;
     private MutableLiveData<Boolean> navigateToArticleDetails;
     private MutableLiveData<Boolean> eventErrorDownloadArticles;
     private MutableLiveData<Boolean> eventLoadArticles;
+    private MutableLiveData<Boolean> eventLocationLoaded;
     public final ObservableField<Boolean> loadingVisible = new ObservableField<>();
     public final ObservableField<Boolean> articlesVisible = new ObservableField<>();
     public final ObservableField<Boolean> errorVisible = new ObservableField<>();
@@ -35,10 +35,10 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
         super(application);
         repository = Repository.getInstance();
         articles = new MutableLiveData<>();
-        location = new MutableLiveData<>();
         navigateToArticleDetails = new MutableLiveData<>(false);
         eventErrorDownloadArticles = new MutableLiveData<>(false);
         eventLoadArticles = new MutableLiveData<>(false);
+        eventLocationLoaded = new MutableLiveData<>(false);
         showLoading();
     }
 
@@ -50,14 +50,12 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
         return articles;
     }
 
-    public LiveData<Location> getLocation() {
-        if(repository.getLocationCache() != null) { return repository.getLocationCache(); }
-        return location;
+    public Location getLocation() {
+        return repository.getLocationCache();
     }
 
     public void setLocation(Location location) {
-        this.location.setValue(location);
-        repository.setLocationCache(this.location);
+        repository.setLocationCache(location);
     }
 
     @Override
@@ -102,11 +100,17 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
         return navigateToArticleDetails;
     }
 
-    public LiveData<Boolean> eventErrorDownloadArticles() { return eventErrorDownloadArticles; }
+    public LiveData<Boolean> getEventErrorDownloadArticles() { return eventErrorDownloadArticles; }
 
-    public LiveData<Boolean> eventLoadArticles() { return eventLoadArticles; }
+    public LiveData<Boolean> getEventLoadArticles() { return eventLoadArticles; }
+
+    public LiveData<Boolean> getEventLocationLoaded() { return eventLocationLoaded; }
+
+    public void eventLocationLoaded() { eventLocationLoaded.setValue(true);}
 
     public void onErrorDownloadArticlesFinished() { eventErrorDownloadArticles.setValue(false); }
+
+    public void onEventLocationLoadedFinished() { eventLocationLoaded.setValue(false); }
 
     public void onLoadArticlesFinished() { eventLoadArticles.setValue(false); }
 

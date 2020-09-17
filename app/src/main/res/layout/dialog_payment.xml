@@ -16,19 +16,19 @@
 
         <Button
             android:id="@+id/btn_airtel_money"
-            style="@style/Widget.MaterialComponents.Button.Large"
+            style="@style/Button.Large"
             android:text="@string/airtel_money"
             android:onClick="@{() -> viewModel.listener.onDialogAirtelMoneyClick()}"/>
 
         <Button
             android:id="@+id/btn_m_pesa"
-            style="@style/Widget.MaterialComponents.Button.Large"
+            style="@style/Button.Large"
             android:text="@string/m_pesa"
             android:onClick="@{() -> viewModel.listener.onDialogMPesaClick()}"/>
 
         <Button
             android:id="@+id/btn_orange_money"
-            style="@style/Widget.MaterialComponents.Button.Large"
+            style="@style/Button.Large"
             android:text="@string/orange_money"
             android:onClick="@{() -> viewModel.listener.onDialogOrangeMoneyClick()}"/>
 

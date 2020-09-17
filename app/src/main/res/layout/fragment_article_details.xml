@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_small"
             android:text="@{article.categorie}"
-            android:textAppearance="?attr/textAppearanceSubtitle2"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/container_article_image"
             tools:text="@string/tv_categorie" />
@@ -65,7 +65,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginRight="@dimen/spacing_small"
             android:background="@drawable/rounded_corner"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
             android:textColor="@android:color/white"
             app:articlePrix="@{article}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_small"
             android:text="@{article.description}"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/article_categorie"
             tools:text="@string/tv_description" />

@@ -33,7 +33,7 @@ public class Repository {
     DjendaService apiService;
     ImageKitService  imageKitService;
     LiveData<List<Article>> articlesCache = null, mesArticlesCache = null;
-    LiveData<Location> locationCache = null;
+    Location locationCache = null;
     MutableLiveData<String> sms = new MutableLiveData<>();
     GoogleSignInAccount account = null;
     Boolean navigatedToPhoneNumber = false;
@@ -145,13 +145,13 @@ public class Repository {
 
     public LiveData<List<Article>> getMesArticlesCache() { return  mesArticlesCache; }
 
-    public LiveData<Location> getLocationCache() { return locationCache; }
+    public Location getLocationCache() { return locationCache; }
 
     public void setUserArticlesCache(LiveData<List<Article>> articles){ mesArticlesCache = articles; }
 
     public void setArticlesCache(LiveData<List<Article>> articles){ articlesCache = articles; }
 
-    public void setLocationCache(LiveData<Location> location) { locationCache = location; }
+    public void setLocationCache(Location location) { locationCache = location; }
 
     public void clearCache() {
         mesArticlesCache = null;

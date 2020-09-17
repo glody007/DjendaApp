@@ -89,22 +89,15 @@ public class ArticlesEnVenteFragment extends Fragment implements
 
         binding.setViewModel(articlesEnVenteViewModel);
 
-        articlesEnVenteViewModel.getLocation().observe(getViewLifecycleOwner(), new Observer<Location>() {
-            @Override
-            public void onChanged(Location location) {
-                articlesEnVenteViewModel.loadArticlesFromRepository();
-            }
-        });
-
         articlesEnVenteViewModel.getArticles().observe(getViewLifecycleOwner(),new Observer<List<Article>>() {
             @Override
             public void onChanged(@Nullable final List<Article> newArticles) {
-                mAdapter.setArticlesAndMyLocation(newArticles, articlesEnVenteViewModel.getLocation().getValue());
+                mAdapter.setArticlesAndMyLocation(newArticles, articlesEnVenteViewModel.getLocation());
                 articlesEnVenteViewModel.showArticles();
             }
         });
 
-        articlesEnVenteViewModel.eventLoadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        articlesEnVenteViewModel.getEventLoadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean load) {
                 if(load) {
@@ -127,13 +120,23 @@ public class ArticlesEnVenteFragment extends Fragment implements
             }
         });
 
-        articlesEnVenteViewModel.eventErrorDownloadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        articlesEnVenteViewModel.getEventErrorDownloadArticles().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean error) {
                 if(error) {
                     Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
                     articlesEnVenteViewModel.showErrorDownload();
                     articlesEnVenteViewModel.onErrorDownloadArticlesFinished();
+                }
+            }
+        });
+
+        articlesEnVenteViewModel.getEventLocationLoaded().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean locationLoaded) {
+                if(locationLoaded) {
+                    articlesEnVenteViewModel.loadArticlesFromRepository();
+                    articlesEnVenteViewModel.onEventLocationLoadedFinished();
                 }
             }
         });
@@ -237,6 +240,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
                     Location myLocation = new Location(locationResult.getLastLocation().getLongitude(),
                                                        locationResult.getLastLocation().getLatitude());
                     articlesEnVenteViewModel.setLocation(myLocation);
+                    articlesEnVenteViewModel.eventLocationLoaded();
                     sharedArticleViewModel.setLocation(myLocation);
                     fusedLocationClient.removeLocationUpdates(callback);
                 }

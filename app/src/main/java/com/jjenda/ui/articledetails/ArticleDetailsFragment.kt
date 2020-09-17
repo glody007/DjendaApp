@@ -33,14 +33,14 @@ class ArticleDetailsFragment : Fragment() {
 
         binding.viewModel = articleDetailsViewModel
 
-        sharedArticleViewModel.selectedArticle.observe(viewLifecycleOwner, Observer {
-            binding.article = it
-            articleDetailsViewModel.vendeurId = it.vendeurId
-            articleDetailsViewModel.getUserInfo()
-        })
-
         sharedArticleViewModel.myLocation.observe(viewLifecycleOwner, Observer {
-            binding.myLocation = it
+            val myLocation = it
+            sharedArticleViewModel.selectedArticle.observe(viewLifecycleOwner, Observer {
+                binding.article = it
+                binding.myLocation = myLocation
+                articleDetailsViewModel.vendeurId = it.vendeurId
+                articleDetailsViewModel.getUserInfo()
+            })
         })
 
         articleDetailsViewModel.eventCall.observe(viewLifecycleOwner, Observer {
