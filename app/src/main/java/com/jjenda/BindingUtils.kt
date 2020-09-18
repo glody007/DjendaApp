@@ -39,15 +39,17 @@ fun TextView.setElapsedTimeFromPost(article: Article?) {
 }
 
 @BindingAdapter("article", "myLocation")
-fun TextView.TimeToArticle(article: Article?, myLocation: com.jjenda.reseau.Location) {
+fun TextView.TimeToArticle(article: Article?, myLocation: com.jjenda.reseau.Location?) {
     article?.let {
         val articleLocation = Location("")
         articleLocation.longitude = article.location[0]
         articleLocation.latitude = article.location[1]
-        val locationB = Location("")
-        locationB.longitude = myLocation.longitude
-        locationB.latitude = myLocation.latitude
-        text = LocationDistance(articleLocation, locationB).timeFromAToBWithBestMeansOfTransportString()
+        myLocation?.let {
+            val locationB = Location("")
+            locationB.longitude = myLocation.longitude
+            locationB.latitude = myLocation.latitude
+            text = LocationDistance(articleLocation, locationB).timeFromAToBWithBestMeansOfTransportString()
+        }
     }
 }
 

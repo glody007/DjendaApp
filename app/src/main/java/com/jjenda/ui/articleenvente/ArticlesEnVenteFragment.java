@@ -124,7 +124,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
             @Override
             public void onChanged(Boolean error) {
                 if(error) {
-                    Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
                     articlesEnVenteViewModel.showErrorDownload();
                     articlesEnVenteViewModel.onErrorDownloadArticlesFinished();
                 }
