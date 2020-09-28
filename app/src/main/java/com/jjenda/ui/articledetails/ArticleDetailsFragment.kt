@@ -76,8 +76,16 @@ class ArticleDetailsFragment : Fragment() {
 
         articleDetailsViewModel.eventShare.observe(viewLifecycleOwner, Observer {
             if(it) {
-                val link = "${Repository.URL_JJENDA}/article/${articleDetailsViewModel.articleId}"
-                sendMessage(link)
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+
+                    putExtra(Intent.EXTRA_TEXT, "${Repository.URL_JJENDA}/article/${articleDetailsViewModel.articleId}")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, "Partager le lien de l'article")
+                startActivity(shareIntent)
+
                 articleDetailsViewModel.onShareFinished()
             }
         })

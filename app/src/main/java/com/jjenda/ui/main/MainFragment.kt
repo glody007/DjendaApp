@@ -1,5 +1,7 @@
 package com.jjenda.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -31,6 +33,18 @@ class MainFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.btnAjouterArticle.setOnClickListener {
             Navigation.findNavController(it).navigate(MainFragmentDirections.actionArticlesFragmentToPrendrePhotoFragment())
+        }
+
+        binding.btnShareBoutique.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+
+                putExtra(Intent.EXTRA_TEXT, "${Repository.URL_JJENDA}/vendeur/${Repository.getInstance().prefUserid}")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, "Partager le lien de votre boutique")
+            startActivity(shareIntent)
         }
 
         setHasOptionsMenu(true)

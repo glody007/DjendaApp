@@ -101,7 +101,6 @@ public class MesArticlesFragment extends Fragment implements
     }
 
 
-
     @Override
     public void onClick(Article article) {
         Toast.makeText(getContext(), article.getCategorie(), Toast.LENGTH_LONG).show();
