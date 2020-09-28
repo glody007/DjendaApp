@@ -39,6 +39,7 @@ public class Repository {
     Boolean navigatedToPhoneNumber = false;
 
     final static String PREF_USERID = "PREF_USERID";
+    public static final String URL_JJENDA = "https://jjenda.herokuapp.com";
 
     @Inject
     Context appContext;
@@ -56,7 +57,6 @@ public class Repository {
         DjendaApplication.Companion.getAppComponent().inject(this);
 
         final String URL_IMAGEKITIO_API = "https://upload.imagekit.io/api/v1/";
-        final String URL_DJENDA  = "https://djendardc.herokuapp.com";
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -70,7 +70,7 @@ public class Repository {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL_DJENDA)
+                .baseUrl(URL_JJENDA)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

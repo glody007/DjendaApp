@@ -33,6 +33,9 @@ public class Article {
     @SerializedName("vendeur_id")
     String mVendeurId;
 
+    @SerializedName("_id")
+    Id mId;
+
     @SerializedName("prix")
     int mPrix;
 
@@ -63,6 +66,8 @@ public class Article {
     }
 
     public String getVendeurId() { return this.mVendeurId; }
+
+    public String getId() {return this.mId.getId(); }
 
     public String getCategorie() { return this.mCategorie; }
 

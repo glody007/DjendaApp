@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.jjenda.R
 import com.jjenda.databinding.FragmentArticleDetailsBinding
+import com.jjenda.reseau.Repository
 import com.jjenda.ui.SharedArticleViewModel
 
 
@@ -38,6 +39,7 @@ class ArticleDetailsFragment : Fragment() {
             sharedArticleViewModel.selectedArticle.observe(viewLifecycleOwner, Observer {
                 binding.article = it
                 binding.myLocation = myLocation
+                articleDetailsViewModel.articleId = it.id
                 articleDetailsViewModel.vendeurId = it.vendeurId
                 articleDetailsViewModel.getUserInfo()
             })
@@ -52,7 +54,7 @@ class ArticleDetailsFragment : Fragment() {
             }
         })
 
-        articleDetailsViewModel.eventSendMessage.observe(viewLifecycleOwner, Observer {
+        articleDetailsViewModel.eventSendWhatsappMessage.observe(viewLifecycleOwner, Observer {
             if(it) {
                val  url = "https://api.whatsapp.com/send?phone=${articleDetailsViewModel.number}"
                val intent = Intent(Intent.ACTION_VIEW)
@@ -61,7 +63,22 @@ class ArticleDetailsFragment : Fragment() {
                Log.d("Intent", "com.whatsapp")
 
                 //message()
+                articleDetailsViewModel.onSendWhatsappMessageFinished()
+            }
+        })
+
+        articleDetailsViewModel.eventSendMessage.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                sendMessage("")
                 articleDetailsViewModel.onSendMessageFinished()
+            }
+        })
+
+        articleDetailsViewModel.eventShare.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                val link = "${Repository.URL_JJENDA}/article/${articleDetailsViewModel.articleId}"
+                sendMessage(link)
+                articleDetailsViewModel.onShareFinished()
             }
         })
 
@@ -76,11 +93,10 @@ class ArticleDetailsFragment : Fragment() {
         return binding.root
     }
 
-    private fun message() {
+    private fun sendMessage(extraText : String) {
         val intent = Intent(Intent.ACTION_SEND).apply {
             data = Uri.parse("smsto:${articleDetailsViewModel.number}")  // This ensures only SMS apps respond
-            val text: String = "Bonjour"
-            putExtra(Intent.EXTRA_TEXT, text)
+            putExtra(Intent.EXTRA_TEXT, extraText)
             setType("text/plain")
         }
         if (intent.resolveActivity(requireActivity().packageManager) != null) {

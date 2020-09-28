@@ -14,6 +14,7 @@ import retrofit2.Response
 class ArticleDetailsViewModel : ViewModel(), LoadArticles {
     var number = ""
     var vendeurId = ""
+    var articleId = ""
     val loadingVisible = ObservableField<Boolean>()
     val errorVisible = ObservableField<Boolean>()
     val infoVisible = ObservableField<Boolean>()
@@ -26,6 +27,14 @@ class ArticleDetailsViewModel : ViewModel(), LoadArticles {
     val eventCall : LiveData<Boolean>
         get() = _eventCall
 
+    private val _eventSendWhatsappMessage = MutableLiveData<Boolean>()
+    val eventSendWhatsappMessage : LiveData<Boolean>
+        get() = _eventSendWhatsappMessage
+
+    private val _eventShare = MutableLiveData<Boolean>()
+    val eventShare : LiveData<Boolean>
+        get() = _eventShare
+
     private val _eventErrorWhenGetUserInfo = MutableLiveData<Boolean>()
     val eventErrorWhenGetUserInfo : LiveData<Boolean>
         get() = _eventErrorWhenGetUserInfo
@@ -33,7 +42,9 @@ class ArticleDetailsViewModel : ViewModel(), LoadArticles {
     init {
         _eventCall.value = false
         _eventSendMessage.value = false
+        _eventSendWhatsappMessage.value = false
         _eventErrorWhenGetUserInfo.value = false
+        _eventShare.value = false
     }
 
 
@@ -78,7 +89,15 @@ class ArticleDetailsViewModel : ViewModel(), LoadArticles {
 
     fun onCall() { _eventCall.value = true }
 
+    fun onSendWhatsappMessage() { _eventSendWhatsappMessage.value = true }
+
+    fun onShare() { _eventShare.value = true }
+
     fun onSendMessageFinished() { _eventSendMessage.value = false }
+
+    fun onSendWhatsappMessageFinished() { _eventSendMessage.value = true }
+
+    fun onShareFinished() { _eventShare.value = false }
 
     fun onCallFinished() { _eventCall.value = false }
 

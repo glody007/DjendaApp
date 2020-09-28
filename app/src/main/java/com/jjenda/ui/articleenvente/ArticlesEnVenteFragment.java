@@ -160,6 +160,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
     @Override
     public void onClick(Article article) {
         sharedArticleViewModel.selectArticle(article);
+        sharedArticleViewModel.setLocation(articlesEnVenteViewModel.getLocation());
         articlesEnVenteViewModel.onArticleClicked();
     }
 
@@ -241,7 +242,6 @@ public class ArticlesEnVenteFragment extends Fragment implements
                                                        locationResult.getLastLocation().getLatitude());
                     articlesEnVenteViewModel.setLocation(myLocation);
                     articlesEnVenteViewModel.eventLocationLoaded();
-                    sharedArticleViewModel.setLocation(myLocation);
                     fusedLocationClient.removeLocationUpdates(callback);
                 }
             }

@@ -6,10 +6,8 @@ package com.jjenda.reseau.interceptor;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;

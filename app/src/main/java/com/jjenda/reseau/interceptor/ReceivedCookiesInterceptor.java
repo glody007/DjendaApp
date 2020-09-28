@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.jjenda.reseau.Repository;
+
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -25,8 +27,8 @@ public class ReceivedCookiesInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
-
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+            Log.d("Set Cookie", "co");
             String cookie = "";
             for (String header : originalResponse.headers("Set-Cookie")) { cookie = header; }
             SharedPreferences.Editor memes = PreferenceManager.getDefaultSharedPreferences(context).edit();

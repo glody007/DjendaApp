@@ -42,8 +42,8 @@
                 android:layout_height="300dp"
                 android:layout_gravity="center"
                 app:articleImage="@{article}"
-                fresco:progressBarImage="@drawable/progress_bar"
-                fresco:progressBarAutoRotateInterval="1000"/>
+                fresco:progressBarAutoRotateInterval="1000"
+                fresco:progressBarImage="@drawable/progress_bar" />
 
         </androidx.cardview.widget.CardView>
 
@@ -51,7 +51,7 @@
             android:id="@+id/article_categorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_small"
             android:text="@{article.categorie}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginRight="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:background="@drawable/rounded_corner"
             android:textAppearance="?attr/textAppearanceSubtitle2"
             android:textColor="@android:color/white"
@@ -88,11 +88,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_small"
-            app:article="@{article}"
-            app:myLocation="@{myLocation}"
             android:textAppearance="?attr/textAppearanceSubtitle2"
+            app:article="@{article}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/article_description"
+            app:myLocation="@{myLocation}"
             tools:text="@tools:sample/lorem" />
 
         <TextView
@@ -100,8 +100,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_small"
-            app:elapsedTimeFromPost="@{article}"
             android:textAppearance="?attr/textAppearanceSubtitle2"
+            app:elapsedTimeFromPost="@{article}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/article_temps_parcour_distance"
             tools:text="@tools:sample/lorem" />
@@ -116,31 +116,65 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/article_temps_depuis_creation" />
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_message_vendeur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
             android:onClick="@{ () -> viewModel.onSendMessage() }"
-            android:visibility="@{viewModel.infoVisible ? View.VISIBLE : View.GONE}"
             android:text="@string/message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:visibility="@{viewModel.infoVisible ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/primaryColor"
+            app:layout_constraintEnd_toStartOf="@+id/btn_whatsapp"
             app:layout_constraintStart_toEndOf="@+id/btn_appel_vendeur"
-            app:layout_constraintTop_toBottomOf="@id/title_contact" />
+            app:layout_constraintTop_toBottomOf="@id/title_contact"
+            app:srcCompat="@drawable/ic_baseline_message_24"
+            app:tint="@color/secondaryTextColor" />
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_appel_vendeur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
             android:onClick="@{ () -> viewModel.onCall() }"
             android:visibility="@{viewModel.infoVisible ? View.VISIBLE : View.GONE}"
-            android:text="@string/appel"
+            app:backgroundTint="@color/primaryColor"
             app:layout_constraintEnd_toStartOf="@+id/btn_message_vendeur"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_contact" />
+            app:layout_constraintTop_toBottomOf="@id/title_contact"
+            app:srcCompat="@drawable/ic_baseline_call_24"
+            app:tint="@color/secondaryTextColor" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:onClick="@{ () -> viewModel.onSendWhatsappMessage() }"
+            android:visibility="@{viewModel.infoVisible ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/whatsapp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_partage"
+            app:layout_constraintStart_toEndOf="@+id/btn_message_vendeur"
+            app:layout_constraintTop_toBottomOf="@+id/title_contact"
+            app:srcCompat="@drawable/ic_baseline_whatsapp_24"
+            app:tint="@color/secondaryTextColor"
+            tools:ignore="VectorDrawableCompat" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_partage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:layout_marginTop="8dp"
+            android:onClick="@{ () -> viewModel.onShare() }"
+            android:visibility="@{viewModel.infoVisible ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/secondaryColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_whatsapp"
+            app:layout_constraintTop_toBottomOf="@+id/title_contact"
+            app:srcCompat="@drawable/ic_baseline_share_24"
+            app:tint="@color/secondaryTextColor"
+            tools:ignore="VectorDrawableCompat" />
 
         <include
             android:id="@+id/progress_bar"
@@ -158,11 +192,11 @@
             layout="@layout/loading_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:loader="@{viewModel}"
             android:visibility="@{viewModel.errorVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_contact"/>
+            app:layout_constraintTop_toBottomOf="@+id/title_contact"
+            bind:loader="@{viewModel}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
