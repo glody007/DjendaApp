@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,7 +13,7 @@
     </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -29,10 +30,19 @@
             tools:text="@tools:sample/lorem" />
 
         <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@{ plan.price }"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            tools:text="5$" />
+
+        <TextView
             android:id="@+id/tv_advantage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ plan.advantage }"
+            app:planAdvantage="@{ plan.advantage }"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             tools:text="Vous pouvez poster jusqu'a 30 photos par mois, upload des photos personaliser et voir les demandes" />
 

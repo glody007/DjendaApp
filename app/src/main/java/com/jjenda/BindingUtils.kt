@@ -4,6 +4,7 @@ import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.text.Editable
+import android.text.Html
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
@@ -27,6 +28,11 @@ fun TextView.setArticlePrixString(article : Article?) {
 @BindingAdapter("alertPostsRestant")
 fun TextView.setAlertPostRestant(nombrePostRestant : Int) {
     text = "Il vous reste $nombrePostRestant article(s) que vous pouvez poster gratuitement ce mois"
+}
+
+@BindingAdapter("planAdvantage")
+fun TextView.setPlanAdvantage(htmlAdvantage: String) {
+    text = Html.fromHtml(htmlAdvantage)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

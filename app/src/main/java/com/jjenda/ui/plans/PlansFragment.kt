@@ -1,5 +1,7 @@
 package com.jjenda.ui.plans
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,10 +30,11 @@ class PlansFragment : Fragment(), PaymentDialog.PaymentDialogListener {
         viewModel = ViewModelProviders.of(this).get(PlansViewModel::class.java)
 
         val adapter = PlanAdapter(PlanListener {
-            type -> fragmentManager?.let {
+            plan -> fragmentManager?.let {
+                    viewModel.forfait = plan.type
                     dialog = PaymentDialog()
                     dialog.onAttachFragment(this)
-                    dialog.show(it, "moyen de paiment")
+                    dialog.show(it, "Moyen de paiment")
                 }
         })
         binding.planList.adapter = adapter
@@ -43,22 +46,32 @@ class PlansFragment : Fragment(), PaymentDialog.PaymentDialogListener {
             }
         })
 
+        viewModel.getPlans()
+
         return binding.root
     }
 
     override fun onDialogAirtelMoneyClick() {
         dialog.dismiss()
-        Toast.makeText(context, "Airtel Money", Toast.LENGTH_SHORT).show()
+        payementMessage("Airtel Money")
     }
 
     override fun onDialogMPesaClick() {
         dialog.dismiss()
-        Toast.makeText(context, "M-Pesa", Toast.LENGTH_SHORT).show()
+        payementMessage("M-Pesa")
     }
 
     override fun onDialogOrangeMoneyClick() {
         dialog.dismiss()
-        Toast.makeText(context, "Orange Money", Toast.LENGTH_SHORT).show()
+        payementMessage("Orange Money")
+    }
+
+    fun payementMessage(provider : String) {
+        val urlEncodedText = "Demande%20de%20payement%20du%20forfait%20${viewModel.forfait}%20via%20${provider}"
+        val  url = "https://api.whatsapp.com/send?phone=+243997028901&text=${urlEncodedText}"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
 }

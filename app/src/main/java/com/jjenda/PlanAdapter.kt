@@ -1,6 +1,5 @@
 package com.jjenda
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ class PlanAdapter(val clickListener : PlanListener) : RecyclerView.Adapter<PlanA
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlansViewHolder {
-        Log.d("Plan", "create")
         return PlansViewHolder.from(parent)
     }
 
@@ -43,6 +41,6 @@ class PlanAdapter(val clickListener : PlanListener) : RecyclerView.Adapter<PlanA
     }
 }
 
-class PlanListener(val clickListener : (type: String) -> Unit) {
-    fun onclick(plan: Plan) = clickListener(plan.type)
+class PlanListener(val clickListener : (plan: Plan) -> Unit) {
+    fun onclick(plan: Plan) = clickListener(plan)
 }

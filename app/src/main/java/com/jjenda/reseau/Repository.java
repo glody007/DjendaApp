@@ -39,7 +39,7 @@ public class Repository {
     Boolean navigatedToPhoneNumber = false;
 
     final static String PREF_USERID = "PREF_USERID";
-    public static final String URL_JJENDA = "https://jjenda.herokuapp.com";
+    public static final String URL_JJENDA = "https://jjenda.herokuapp.com/api/v1/";
 
     @Inject
     Context appContext;
@@ -122,6 +122,11 @@ public class Repository {
 
     public void getArticles(Callback<List<Article>> callback) {
         Call<List<Article>> call = this.apiService.getArticles();
+        call.enqueue(callback);
+    }
+
+    public void getPlans(Callback<List<Plan>> callback) {
+        Call<List<Plan>> call = this.apiService.getPlans();
         call.enqueue(callback);
     }
 

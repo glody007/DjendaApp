@@ -6,6 +6,8 @@
         <variable
             name="viewModel"
             type="com.jjenda.ui.plans.PlansViewModel" />
+
+        <import type="android.view.View"/>
     </data>
 
     <LinearLayout
@@ -18,7 +20,23 @@
             android:id="@+id/plan_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="@{viewModel.plansVisible ? View.VISIBLE : View.GONE}"/>
+
+        <include
+            layout="@layout/loading_error"
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:loader="@{viewModel}"
+            android:visibility="@{viewModel.errorVisible ? View.VISIBLE : View.GONE}"/>
+
+        <include
+            layout="@layout/progress_bar"
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.loadingVisible ? View.VISIBLE : View.GONE}"/>
 
     </LinearLayout>
 
