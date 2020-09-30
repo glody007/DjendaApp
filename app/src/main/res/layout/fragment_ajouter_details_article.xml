@@ -49,6 +49,19 @@
                         android:layout_height="match_parent"/>
                 </LinearLayout>
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_title_categorie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/tv_categorie"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                </com.google.android.material.textview.MaterialTextView>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/il_description_details_article"
                     android:layout_width="0dp"
@@ -58,7 +71,7 @@
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner"
                     android:hint="@string/ti_description_details_article" >
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -70,26 +83,18 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/il_categorie_details_article"
-                    android:layout_width="0dp"
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:layout_marginEnd="20dp"
+                    android:paddingVertical="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/il_description_details_article"
-                    android:hint="@string/ti_categorie_details_article" >
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_categorie"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/ti_categorie_details_article"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={viewModel.article.categorie}"
-                        app:onTextChange="@{viewModel.onTextChanged}"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/il_prix_details_article"
@@ -100,7 +105,7 @@
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/il_categorie_details_article"
+                    app:layout_constraintTop_toBottomOf="@+id/il_description_details_article"
                     android:hint="@string/ti_prix_details_article">
 
                     <com.google.android.material.textfield.TextInputEditText

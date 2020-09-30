@@ -39,7 +39,6 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
         eventErrorDownloadArticles = new MutableLiveData<>(false);
         eventLoadArticles = new MutableLiveData<>(false);
         eventLocationLoaded = new MutableLiveData<>(false);
-        showLoading();
     }
 
     public LiveData<List<Article>> getArticles() {
@@ -69,6 +68,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
                 articles.setValue(response.body());
                 repository.setArticlesCache(articles);
+                showArticles();
             }
 
             @Override
@@ -107,6 +107,8 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
     public LiveData<Boolean> getEventLocationLoaded() { return eventLocationLoaded; }
 
     public void eventLocationLoaded() { eventLocationLoaded.setValue(true);}
+
+    public void eventErrorDownloadArticles() { eventErrorDownloadArticles.setValue(true);}
 
     public void onErrorDownloadArticlesFinished() { eventErrorDownloadArticles.setValue(false); }
 

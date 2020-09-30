@@ -253,6 +253,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
                     articlesEnVenteViewModel.eventLocationLoaded();
                     fusedLocationClient.removeLocationUpdates(callback);
                 }
+                else{ articlesEnVenteViewModel.eventErrorDownloadArticles(); }
             }
         };
     }

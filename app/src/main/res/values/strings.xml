@@ -50,5 +50,13 @@
     <string name="poster">Poster</string>
     <string name="version_payante">Version payante</string>
     <string name="voir_les_tarifs">Voir les tarifs</string>
+    <string-array name="categories_array">
+        <item>Autres</item>
+        <item>Pc</item>
+        <item>Phone</item>
+        <item>Habillement</item>
+        <item>Accessoires de mode</item>
+        <item>Accessoires phone</item>
+    </string-array>
 
 </resources>

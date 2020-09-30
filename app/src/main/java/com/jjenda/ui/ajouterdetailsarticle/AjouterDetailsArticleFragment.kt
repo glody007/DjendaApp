@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -34,9 +36,10 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.jjenda.ui.avertissementpostrestant.PostRestantDialog
 import com.jjenda.ui.payment.PaymentDialog
+import kotlinx.android.synthetic.main.fragment_ajouter_details_article.*
 
 
-class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantDialogListener {
+class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantDialogListener, AdapterView.OnItemSelectedListener {
 
     lateinit var binding : FragmentAjouterDetailsArticleBinding
     lateinit var viewModel: AjouterDetailsArticleViewModel
@@ -101,9 +104,24 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
             }
         })
 
+        setupSpinner()
         showForm()
 
         return binding.root
+    }
+
+    fun setupSpinner() {
+        ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.categories_array,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            binding.spinner.adapter = adapter
+            binding.spinner.onItemSelectedListener = this
+        }
     }
 
     private fun navigateToarticlesFragment() {
@@ -129,7 +147,6 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
     }
 
     private fun formEnabled(enabled : Boolean) {
-        binding.ilCategorieDetailsArticle.isEnabled = enabled
         binding.ilDescriptionDetailsArticle.isEnabled = enabled
         binding.ilPrixDetailsArticle.isEnabled = enabled
         binding.btnPosterDetailsArticle.isEnabled = enabled
@@ -278,6 +295,14 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
     override fun onPause() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(callback)
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        binding.spinner.setSelection(0)
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        viewModel.article.categorie = resources.getStringArray(R.array.categories_array)[pos]
     }
 
 }
