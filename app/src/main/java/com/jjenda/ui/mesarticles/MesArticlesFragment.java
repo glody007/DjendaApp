@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.jjenda.ArticlesAdapter;
 import com.jjenda.MyArticlesAdapter;
@@ -67,7 +68,7 @@ public class MesArticlesFragment extends Fragment implements
             @Override
             public void onChanged(Boolean error) {
                 if(error) {
-                    //Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
+                    binding.swiperefresh.setRefreshing(false);
                     mesArticlesViewModel.showErrorDownload();
                     mesArticlesViewModel.onErrorDownloadArticlesFinished();
                 }
@@ -96,6 +97,15 @@ public class MesArticlesFragment extends Fragment implements
                 }
             }
         });
+
+        binding.swiperefresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        mesArticlesViewModel.loadArticles();
+                    }
+                }
+        );
 
         return binding.getRoot();
     }

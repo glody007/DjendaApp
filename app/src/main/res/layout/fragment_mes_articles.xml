@@ -14,13 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_mes_articles"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="8dp"
-            android:visibility="@{viewModel.articlesVisible ? View.VISIBLE : View.GONE}"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_mes_articles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp"
+                android:visibility="@{viewModel.articlesVisible ? View.VISIBLE : View.GONE}"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include
             layout="@layout/loading_error"

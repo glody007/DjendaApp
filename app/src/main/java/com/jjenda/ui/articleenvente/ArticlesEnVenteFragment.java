@@ -25,6 +25,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -124,7 +125,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
             @Override
             public void onChanged(Boolean error) {
                 if(error) {
-                    //Snackbar.make(binding.getRoot(), R.string.connection_problem_message, Snackbar.LENGTH_LONG).show();
+                    binding.swiperefresh.setRefreshing(false);
                     articlesEnVenteViewModel.showErrorDownload();
                     articlesEnVenteViewModel.onErrorDownloadArticlesFinished();
                 }
@@ -152,6 +153,14 @@ public class ArticlesEnVenteFragment extends Fragment implements
             }
         });
 
+        binding.swiperefresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        articlesEnVenteViewModel.loadArticles();
+                    }
+                }
+        );
 
         return binding.getRoot();
     }
