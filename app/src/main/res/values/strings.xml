@@ -50,6 +50,7 @@
     <string name="poster">Poster</string>
     <string name="version_payante">Version payante</string>
     <string name="voir_les_tarifs">Voir les tarifs</string>
+    <string name="numero_de_telephone_non_valide">Numero de telephone non valide</string>
     <string-array name="categories_array">
         <item>Autres</item>
         <item>Pc</item>

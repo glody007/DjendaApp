@@ -26,6 +26,10 @@ class PhoneNumberViewModel : ViewModel() {
     val eventSendMessage : LiveData<Boolean>
         get() = _eventSendMessage
 
+    private val _eventNumberInvalide = MutableLiveData<Boolean>()
+    val eventNumberInvalide : LiveData<Boolean>
+        get() = _eventNumberInvalide
+
     private val _eventErrorWhenSendingMessage = MutableLiveData<Boolean>()
     val eventErrorWhenSendingMessage : LiveData<Boolean>
         get() = _eventErrorWhenSendingMessage
@@ -60,6 +64,7 @@ class PhoneNumberViewModel : ViewModel() {
         _eventNavigateToArticles.value = false
         _eventNavigateToLogin.value = false
         _eventRegisterNumber.value = false
+        _eventNumberInvalide.value = false
         loading.set(false)
     }
 
@@ -73,6 +78,8 @@ class PhoneNumberViewModel : ViewModel() {
 
     fun onNavigateToArticlesFinished() { _eventNavigateToArticles.value = false }
 
+    fun onNumberInvalideFinished() { _eventNumberInvalide.value = false }
+
     fun onNavigateToLoginFinished() { _eventNavigateToLogin.value = false }
 
     fun onRegisterPhoneNumberFinished() { _eventRegisterNumber.value = false }
@@ -80,11 +87,20 @@ class PhoneNumberViewModel : ViewModel() {
     fun sendClicked() { _eventRegisterNumber.value = true }
 
     fun registerNumber() {
+        if(isValideNumber()) registerNumberOnServer()
+        else _eventNumberInvalide.value = true
+    }
+
+    fun isValideNumber() : Boolean {
+        return phoneNumber.matches("^\\+[0-9]\\d{10,13}".toRegex())
+    }
+
+    private fun registerNumberOnServer() {
         loading.set(true)
         repository.registerNumber(phone, object : Callback<Success> {
             override fun onResponse(call: Call<Success>, response: Response<Success>) {
                 response.body()?.let {
-                    if(it.success) {
+                    if (it.success) {
                         Repository.getInstance().storePrefUserId()
                         _eventNavigateToArticles.value = true
                     }

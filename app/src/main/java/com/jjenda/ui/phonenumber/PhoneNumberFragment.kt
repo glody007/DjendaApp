@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.snackbar.Snackbar
 import com.jjenda.R
 import com.jjenda.databinding.FragmentPhoneNumberBinding
 import com.jjenda.reseau.Repository
@@ -60,7 +61,16 @@ class PhoneNumberFragment: Fragment() {
         viewModel.eventErrorWhenSendingMessage.observe(viewLifecycleOwner, Observer {
             if(it) {
                 enableForm()
+                Snackbar.make(binding.root, R.string.connection_problem_message, Snackbar.LENGTH_LONG).show()
                 viewModel.onErrorWhenSendingMessageFinished()
+            }
+        })
+
+        viewModel.eventNumberInvalide.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                binding.tvNumberInvalide.visibility = View.VISIBLE
+                enableForm()
+                viewModel.onNumberInvalideFinished()
             }
         })
 
@@ -81,6 +91,7 @@ class PhoneNumberFragment: Fragment() {
         })
 
         Repository.getInstance().navigatedToPhoneNumber = true
+        binding.tvNumberInvalide.visibility = View.GONE
 
         return binding.root
     }
