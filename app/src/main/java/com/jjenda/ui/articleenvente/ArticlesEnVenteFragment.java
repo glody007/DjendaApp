@@ -103,6 +103,7 @@ public class ArticlesEnVenteFragment extends Fragment implements
             public void onChanged(Boolean load) {
                 if(load) {
                     articlesEnVenteViewModel.showLoading();
+                    binding.swiperefresh.setRefreshing(false);
                     getLocation();
                     articlesEnVenteViewModel.onLoadArticlesFinished();
                 }
@@ -125,7 +126,6 @@ public class ArticlesEnVenteFragment extends Fragment implements
             @Override
             public void onChanged(Boolean error) {
                 if(error) {
-                    binding.swiperefresh.setRefreshing(false);
                     articlesEnVenteViewModel.showErrorDownload();
                     articlesEnVenteViewModel.onErrorDownloadArticlesFinished();
                 }
