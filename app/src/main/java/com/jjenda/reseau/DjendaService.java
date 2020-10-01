@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface DjendaService {
 
@@ -16,6 +17,10 @@ public interface DjendaService {
 
     @GET("users/produits")
     Call<List<Article>> getUserArticles();
+
+    @GET("best_match_produits")
+    Call<List<Article>> getNearArticles(@Query("longitude") String longitude,
+                                        @Query("latitude") String latitude);
 
     @GET("users/posts_restants")
     Call<PostsRestants> getUserPostsRestants();

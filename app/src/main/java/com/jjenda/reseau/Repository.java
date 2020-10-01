@@ -125,6 +125,14 @@ public class Repository {
         call.enqueue(callback);
     }
 
+    public void getNearArticles(Callback<List<Article>> callback) {
+        if(locationCache != null) {
+            Call<List<Article>> call = this.apiService.getNearArticles(String.valueOf(locationCache.getLongitude()),
+                                                                       String.valueOf(locationCache.getLatitude()));
+            call.enqueue(callback);
+        }
+    }
+
     public void getPlans(Callback<List<Plan>> callback) {
         Call<List<Plan>> call = this.apiService.getPlans();
         call.enqueue(callback);

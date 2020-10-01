@@ -63,7 +63,7 @@ public class ArticlesEnVenteViewModel extends AndroidViewModel implements LoadAr
     }
 
     protected void loadArticlesFromRepository() {
-        repository.getArticles(new Callback<List<Article>>() {
+        repository.getNearArticles(new Callback<List<Article>>() {
             @Override
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
                 articles.setValue(response.body());

@@ -27,7 +27,7 @@ fun TextView.setArticlePrixString(article : Article?) {
 
 @BindingAdapter("alertPostsRestant")
 fun TextView.setAlertPostRestant(nombrePostRestant : Int) {
-    text = "Il vous reste $nombrePostRestant article(s) que vous pouvez poster gratuitement ce mois"
+    text = "Il vous reste $nombrePostRestant article(s) que vous pouvez poster ce mois"
 }
 
 @BindingAdapter("planAdvantage")
