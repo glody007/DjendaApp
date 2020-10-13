@@ -39,7 +39,8 @@ public class Repository {
     Boolean navigatedToPhoneNumber = false;
 
     final static String PREF_USERID = "PREF_USERID";
-    public static final String URL_JJENDA = "https://jjenda.herokuapp.com/api/v1/";
+    public static final String URL_JJENDA = "http://www.jjenda.com";
+    public static final String URL_JJENDA_API = URL_JJENDA.concat("/api/v1/");
 
     @Inject
     Context appContext;
@@ -70,7 +71,7 @@ public class Repository {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL_JJENDA)
+                .baseUrl(URL_JJENDA_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
