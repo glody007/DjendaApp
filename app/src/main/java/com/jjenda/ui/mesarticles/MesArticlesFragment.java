@@ -23,6 +23,7 @@ import com.jjenda.reseau.Article;
 import com.jjenda.R;
 import com.jjenda.ui.main.MainFragmentDirections;
 import com.google.android.material.snackbar.Snackbar;
+import com.segment.analytics.Analytics;
 
 import java.util.List;
 
@@ -106,6 +107,8 @@ public class MesArticlesFragment extends Fragment implements
                     }
                 }
         );
+
+        Analytics.with(getContext()).screen("Mes articles");
 
         return binding.getRoot();
     }

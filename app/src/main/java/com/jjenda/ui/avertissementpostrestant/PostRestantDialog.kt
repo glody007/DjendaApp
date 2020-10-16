@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.jjenda.R
 import com.jjenda.databinding.DialogPostRestantBinding
+import com.segment.analytics.Analytics
 
 class PostRestantDialog(val nombrePostsRestant: Int) : DialogFragment() {
 
@@ -37,6 +38,7 @@ class PostRestantDialog(val nombrePostsRestant: Int) : DialogFragment() {
     lateinit var viewModel: PostRestantViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        Analytics.with(requireContext()).screen("Poste Restants")
         return activity?.let {
             binding = DataBindingUtil.inflate(LayoutInflater.from(context),
                             R.layout.dialog_post_restant, null, false)

@@ -36,6 +36,8 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.jjenda.ui.avertissementpostrestant.PostRestantDialog
 import com.jjenda.ui.payment.PaymentDialog
+import com.segment.analytics.Analytics
+import com.segment.analytics.Properties
 import kotlinx.android.synthetic.main.fragment_ajouter_details_article.*
 
 
@@ -78,6 +80,7 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
 
         viewModel.eventArticlePosted.observe(viewLifecycleOwner, Observer {
             if(it) {
+                analyticsArticlePosted()
                 sharedArticleViewModel.startEventArticlePosted()
                 navigateToarticlesFragment()
                 viewModel.onArticlePostedFinished()
@@ -107,7 +110,18 @@ class AjouterDetailsArticleFragment : Fragment(), PostRestantDialog.PostRestantD
         setupSpinner()
         showForm()
 
+        Analytics.with(requireContext()).screen("Ajouter details article")
+
         return binding.root
+    }
+
+    private fun analyticsArticlePosted() {
+        val properties = Properties()
+        properties["categorie"] = viewModel.article.categorie
+        properties["description"] = viewModel.article.description
+        properties["prix"] = viewModel.article.prix
+
+        Analytics.with(requireContext()).track("Article Posted", properties)
     }
 
     fun setupSpinner() {

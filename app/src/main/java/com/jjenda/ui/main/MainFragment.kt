@@ -19,6 +19,7 @@ import com.jjenda.reseau.Repository
 import com.jjenda.ui.articleenvente.ArticlesEnVenteFragment
 import com.jjenda.ui.mesarticles.MesArticlesFragment
 import com.jjenda.utils.signOut
+import com.segment.analytics.Analytics
 
 class MainFragment : Fragment() {
 
@@ -44,6 +45,8 @@ class MainFragment : Fragment() {
             }
 
             val shareIntent = Intent.createChooser(sendIntent, "Partager le lien de votre boutique")
+
+            Analytics.with(requireContext()).track("Boutique shared")
             startActivity(shareIntent)
         }
 

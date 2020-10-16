@@ -21,6 +21,10 @@ class LoginViewModel : ViewModel() {
     val eventNavigateToArticlesFragment : LiveData<Boolean>
         get() = _eventNavigateToArticlesFragment
 
+    private val _eventUserLoggedIn = MutableLiveData<Boolean>()
+    val eventUserLoggedIn : LiveData<Boolean>
+        get() = _eventUserLoggedIn
+
     private val _eventNavigateToPhoneNumberFragment = MutableLiveData<Boolean>()
     val eventNavigateToPhoneNumberFragment : LiveData<Boolean>
         get() = _eventNavigateToPhoneNumberFragment
@@ -43,6 +47,7 @@ class LoginViewModel : ViewModel() {
         _eventNavigateToPhoneNumberFragment.value = false
         _eventErrorWhenVerifyOAuthToken.value = false
         _eventBadIdToken.value = false
+        _eventUserLoggedIn.value = false
         loading.set(false)
         error.set(false)
     }
@@ -58,6 +63,8 @@ class LoginViewModel : ViewModel() {
     fun onNavigateToArticlesFragmentFinished() { _eventNavigateToArticlesFragment.value = false }
 
     fun onNavigateToPhoneNumberFragmentFinished() { _eventNavigateToPhoneNumberFragment.value = false }
+
+    fun onUserLoggedInFinished() { _eventUserLoggedIn.value = false }
 
     private fun storeUserId() {
         Repository.getInstance().storePrefUserId()
@@ -105,7 +112,10 @@ class LoginViewModel : ViewModel() {
             override fun onResponse(call: Call<VerifyOAuth>, response: Response<VerifyOAuth>) {
                 response.body()?.let {
 
-                    if(it.verify) { requestHasPhoneNumber() }
+                    if(it.verify) {
+                        _eventUserLoggedIn.value = true
+                        requestHasPhoneNumber()
+                    }
                     else {
                         _eventBadIdToken.value = true
                         hideLoading()

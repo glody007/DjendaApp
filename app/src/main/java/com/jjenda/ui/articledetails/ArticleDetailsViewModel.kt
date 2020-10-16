@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jjenda.reseau.Article
 import com.jjenda.reseau.Repository
 import com.jjenda.reseau.User
 import com.jjenda.ui.LoadArticles
@@ -15,6 +16,7 @@ class ArticleDetailsViewModel : ViewModel(), LoadArticles {
     var number = ""
     var vendeurId = ""
     var articleId = ""
+    var article = Article()
     val loadingVisible = ObservableField<Boolean>()
     val errorVisible = ObservableField<Boolean>()
     val infoVisible = ObservableField<Boolean>()

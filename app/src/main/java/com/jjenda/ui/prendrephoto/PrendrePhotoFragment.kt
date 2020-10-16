@@ -22,6 +22,7 @@ import com.jjenda.R
 import com.jjenda.databinding.FragmentPrendrePhotoBinding
 import com.jjenda.reseau.Repository
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.segment.analytics.Analytics
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,6 +44,8 @@ class PrendrePhotoFragment : Fragment() {
         // Request camera permissions
         cameraKitView =  binding.camera
         binding.imgCapture.setOnClickListener { prendrePhoto() }
+
+        Analytics.with(requireContext()).screen("Prendre photo")
 
         return binding.root
     }

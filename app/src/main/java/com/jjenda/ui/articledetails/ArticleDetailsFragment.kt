@@ -15,8 +15,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.jjenda.R
 import com.jjenda.databinding.FragmentArticleDetailsBinding
+import com.jjenda.reseau.Article
 import com.jjenda.reseau.Repository
 import com.jjenda.ui.SharedArticleViewModel
+import com.segment.analytics.Analytics
+import com.segment.analytics.Properties
 
 
 class ArticleDetailsFragment : Fragment() {
@@ -39,9 +42,13 @@ class ArticleDetailsFragment : Fragment() {
             sharedArticleViewModel.selectedArticle.observe(viewLifecycleOwner, Observer {
                 binding.article = it
                 binding.myLocation = myLocation
+                articleDetailsViewModel.article = it
                 articleDetailsViewModel.articleId = it.id
                 articleDetailsViewModel.vendeurId = it.vendeurId
                 articleDetailsViewModel.getUserInfo()
+
+                analyticsArticleViewed(it)
+
             })
         })
 
@@ -50,6 +57,8 @@ class ArticleDetailsFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse("tel:${articleDetailsViewModel.number}")
                 startActivity(intent)
+
+                analyticsVendeurContacted(articleDetailsViewModel.article, "Call")
                 articleDetailsViewModel.onCallFinished()
             }
         })
@@ -62,7 +71,7 @@ class ArticleDetailsFragment : Fragment() {
                startActivity(intent)
                Log.d("Intent", "com.whatsapp")
 
-                //message()
+                analyticsVendeurContacted(articleDetailsViewModel.article, "Whatsapp")
                 articleDetailsViewModel.onSendWhatsappMessageFinished()
             }
         })
@@ -70,6 +79,8 @@ class ArticleDetailsFragment : Fragment() {
         articleDetailsViewModel.eventSendMessage.observe(viewLifecycleOwner, Observer {
             if(it) {
                 sendMessage("")
+
+                analyticsVendeurContacted(articleDetailsViewModel.article, "Message")
                 articleDetailsViewModel.onSendMessageFinished()
             }
         })
@@ -87,6 +98,8 @@ class ArticleDetailsFragment : Fragment() {
                 startActivity(shareIntent)
 
                 articleDetailsViewModel.onShareFinished()
+
+                analyticsArticleShared(articleDetailsViewModel.article)
             }
         })
 
@@ -99,6 +112,31 @@ class ArticleDetailsFragment : Fragment() {
         articleDetailsViewModel
 
         return binding.root
+    }
+
+    private fun analyticsPropertiesFromArticle(article : Article) : Properties {
+        val properties = Properties()
+        properties["categorie"] = article.categorie
+        properties["descritpion"] = article.description
+        properties["prix"] = article.prix
+        properties["id"] = article.id
+        properties["vendeurId"] = article.vendeurId
+        properties["vendeurNumber"] = articleDetailsViewModel.number
+        return properties
+    }
+
+    private fun analyticsArticleViewed(article : Article) {
+        Analytics.with(requireContext()).track("Article viewed", analyticsPropertiesFromArticle(article))
+    }
+
+    private fun analyticsArticleShared(article : Article) {
+        Analytics.with(requireContext()).track("Article Shared", analyticsPropertiesFromArticle(article))
+    }
+
+    private fun analyticsVendeurContacted(article : Article, method : String) {
+        val properties = analyticsPropertiesFromArticle(article)
+        properties["method"] = method
+        Analytics.with(requireContext()).track("Vendeur Contacted", properties)
     }
 
     private fun sendMessage(extraText : String) {

@@ -93,4 +93,6 @@ dependencies {
     apply plugin: "androidx.navigation.safeargs"
 
     implementation "androidx.cardview:cardview:1.0.0"
+
+    implementation 'com.segment.analytics.android:analytics:4.+'
 }

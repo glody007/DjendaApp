@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.jjenda.R
 import com.jjenda.databinding.DialogPaymentBinding
 import com.jjenda.ui.avertissementpostrestant.PostRestantViewModel
+import com.segment.analytics.Analytics
 
 class PaymentDialog : DialogFragment() {
 
@@ -41,6 +42,7 @@ class PaymentDialog : DialogFragment() {
     lateinit var viewModel: PaymentViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        Analytics.with(requireContext()).screen("Payment")
         return activity?.let {
             binding = DataBindingUtil.inflate(LayoutInflater.from(context),
                     R.layout.dialog_payment, null, false)

@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.jjenda.reseau.Repository
 import com.jjenda.utils.signOut
+import com.segment.analytics.Analytics
+import com.segment.analytics.Traits
 
 class LoginFragment : Fragment() {
 
@@ -96,7 +98,21 @@ class LoginFragment : Fragment() {
             }
         })
 
+        viewModel.eventUserLoggedIn.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                Repository.getInstance().account?.let { identify(it) }
+                viewModel.onUserLoggedInFinished()
+            }
+        })
+
         return binding.root
+    }
+
+    private fun identify(account: GoogleSignInAccount) {
+        val traits = Traits()
+        account.givenName?.let { traits.putName(it) }
+        account.email?.let { traits.putEmail(it) }
+        account.id?.let { Analytics.with(requireContext()).identify(it, traits, null) }
     }
 
     private fun signOut() {

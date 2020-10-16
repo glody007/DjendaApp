@@ -18,6 +18,8 @@ import com.jjenda.databinding.FragmentPhoneNumberBinding
 import com.jjenda.reseau.Repository
 import com.jjenda.ui.main.MainFragmentDirections
 import com.jjenda.utils.signOut
+import com.segment.analytics.Analytics
+import com.segment.analytics.Traits
 
 class PhoneNumberFragment: Fragment() {
 
@@ -50,6 +52,9 @@ class PhoneNumberFragment: Fragment() {
 
         viewModel.eventNavigateToArticles.observe(viewLifecycleOwner, Observer {
             if(it) {
+                Analytics.with(requireContext()).identify(Traits().putPhone(viewModel.phoneNumber))
+                Analytics.with(requireContext()).track("Signup finished")
+
                 Repository.getInstance().navigatedToPhoneNumber = false
                 Navigation.findNavController(binding.root)
                         .navigate(PhoneNumberFragmentDirections
@@ -92,6 +97,8 @@ class PhoneNumberFragment: Fragment() {
 
         Repository.getInstance().navigatedToPhoneNumber = true
         binding.tvNumberInvalide.visibility = View.GONE
+
+        Analytics.with(requireContext()).screen("Phone number")
 
         return binding.root
     }

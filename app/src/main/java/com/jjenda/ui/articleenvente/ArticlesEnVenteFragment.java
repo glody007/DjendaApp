@@ -48,6 +48,7 @@ import com.jjenda.reseau.Repository;
 import com.jjenda.ui.SharedArticleViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.jjenda.ui.main.MainFragmentDirections;
+import com.segment.analytics.Analytics;
 
 import java.util.List;
 
@@ -161,6 +162,8 @@ public class ArticlesEnVenteFragment extends Fragment implements
                     }
                 }
         );
+
+        Analytics.with(getContext()).screen("Articles en vente");
 
         return binding.getRoot();
     }

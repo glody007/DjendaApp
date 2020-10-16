@@ -16,6 +16,7 @@ import com.jjenda.PlanListener
 import com.jjenda.R
 import com.jjenda.databinding.FragmentPlansBinding
 import com.jjenda.ui.payment.PaymentDialog
+import com.segment.analytics.Analytics
 
 class PlansFragment : Fragment(), PaymentDialog.PaymentDialogListener {
 
@@ -48,6 +49,8 @@ class PlansFragment : Fragment(), PaymentDialog.PaymentDialogListener {
 
         viewModel.getPlans()
 
+        Analytics.with(requireContext()).screen("Plans")
+
         return binding.root
     }
 
@@ -67,6 +70,8 @@ class PlansFragment : Fragment(), PaymentDialog.PaymentDialogListener {
     }
 
     fun payementMessage(provider : String) {
+        Analytics.with(requireContext()).track("Payment intent")
+
         val urlEncodedText = "Demande%20de%20payement%20du%20forfait%20${viewModel.forfait}%20via%20${provider}"
         val  url = "https://api.whatsapp.com/send?phone=+243997028901&text=${urlEncodedText}"
         val intent = Intent(Intent.ACTION_VIEW)
